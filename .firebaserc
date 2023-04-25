@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "diak-forum": {
+      "hosting": {
+        "Diak-forum": [
+          "diak-forum"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "diak-forum"
+  }
+}
