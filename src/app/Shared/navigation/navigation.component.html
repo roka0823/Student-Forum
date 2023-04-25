@@ -1,1 +1,71 @@
-<p>navigation works!</p>
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #sidenav class="sidenav" mode="side" opened>
+    <mat-nav-list class="centered-list">
+      <a mat-list-item (click)="openSidenav()" style="height: 5vw;">
+        <div class="sidenav-item-container">
+          <mat-icon>menu</mat-icon>
+          <br>
+        </div>
+      </a>
+      <a mat-list-item routerLink="/main" routerLinkActive="active" style="height: 5vw;">
+        <div class="sidenav-item-container">
+          <mat-icon class="icon">home</mat-icon>
+          <br>
+          <span class="text">Főoldal</span>
+        </div>
+      </a>
+      <a mat-list-item routerLink="/profile" routerLinkActive="active" style="height: 5vw;">
+        <div class="sidenav-item-container">
+          <mat-icon class="icon">person</mat-icon>
+          <br>
+          <span class="text">Profil</span>
+        </div>
+      </a>
+      <a mat-list-item routerLink="/students" routerLinkActive="active" style="height: 5vw;">
+        <div class="sidenav-item-container">
+          <mat-icon class="icon">group</mat-icon>
+          <br>
+          <span class="text">Személyek</span>
+        </div>
+      </a>
+      <a mat-list-item routerLink="/subjects" routerLinkActive="active" style="height: 5vw;">
+        <div class="sidenav-item-container">
+          <mat-icon class="icon">book</mat-icon>
+          <br>
+          <span class="text">Tantárgyak</span>
+        </div>
+      </a>
+      <a mat-list-item routerLink="/tutoring" routerLinkActive="active" style="height: 5vw;">
+        <div class="sidenav-item-container">
+          <mat-icon class="icon">school</mat-icon>
+          <br>
+          <span class="text">Korrepetálás</span>
+        </div>
+      </a>
+      <a mat-list-item routerLink="/settings" routerLinkActive="active" style="height: 5vw;">
+        <div class="sidenav-item-container">
+          <mat-icon class="icon">settings</mat-icon>
+          <br>
+          <span class="text">Beállítások</span>
+        </div>
+      </a>
+      <a mat-list-item (click)="logOut()" style="height: 5vw;">
+        <div class="sidenav-item-container">
+          <mat-icon class="icon" style="color: #d90f0f">logout</mat-icon>
+          <br>
+          <span class="text">Főoldal</span>
+        </div>
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <div class="header-nav">
+      <button mat-icon-button (click)="goBack()"><mat-icon class="back-icon">keyboard_arrow_left</mat-icon></button>
+    </div>
+    <div class="card-container">
+          <div class="card-content-container">
+            <router-outlet></router-outlet>
+          </div>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

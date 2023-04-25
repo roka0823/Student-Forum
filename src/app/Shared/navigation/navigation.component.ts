@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {Location} from "@angular/common";
 
 @Component({
   selector: 'app-navigation',
@@ -7,4 +8,15 @@ import { Component } from '@angular/core';
 })
 export class NavigationComponent {
 
+  constructor(private location: Location) {
+  }
+  openSidenav: any;
+
+  goBack() {
+    this.location.back();
+  }
+
+  logOut() {
+
+  }
 }

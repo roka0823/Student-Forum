@@ -1,1 +1,71 @@
-<p>register works!</p>
+<div class="header">
+  <b>Új profil létrehozása</b>
+</div>
+<div class="body">
+  <div class="p-style">
+    <p>Email:</p>
+  </div>
+  <div class="email">
+    <mat-form-field style="width:60vw">
+      <mat-label>Írd be az email címed</mat-label>
+      <input matInput type="email"/>
+    </mat-form-field>
+  </div>
+  <div class="p-style">
+    <p>Jelszó:</p>
+  </div>
+  <div class="password">
+    <mat-form-field style="width:29vw; margin-left: 1.5vw">
+      <mat-label>Írd be a jelszavad</mat-label>
+      <input matInput type="email"/>
+    </mat-form-field>
+    <mat-form-field style="width:29vw; margin-left: 2vw">
+      <mat-label>Erősítsd meg a jelszavad</mat-label>
+      <input matInput type="email"/>
+    </mat-form-field>
+  </div>
+  <div class="p-style">
+    <p>Név:</p>
+  </div>
+  <div class="password">
+    <mat-form-field style="width:29vw; margin-left: 1.5vw">
+      <mat-label>Vezetéknév</mat-label>
+      <input matInput type="email"/>
+    </mat-form-field>
+    <mat-form-field style="width:29vw; margin-left: 2vw">
+      <mat-label>Keresztnév</mat-label>
+      <input matInput type="email"/>
+    </mat-form-field>
+  </div>
+  <div class="p-style">
+    <p>Tanulmány:</p>
+  </div>
+  <div class="tanulmany">
+    <mat-form-field appearance="fill" style="width:29vw; margin-left: 1.5vw">
+      <mat-label>Melyik szakon tanulsz?</mat-label>
+      <mat-select [(value)]="szak">
+        <mat-option value="option1">Programtervező informatikus</mat-option>
+        <mat-option value="option2">Mérnökinformatikus</mat-option>
+        <mat-option value="option3">Anyagmérnöki</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="fill" style="width:29vw; margin-left: 1.5vw">
+      <mat-label>Hanyadik féléves vagy?</mat-label>
+      <mat-select [(value)]="felev">
+        <mat-option value="option1">I.</mat-option>
+        <mat-option value="option2">II.</mat-option>
+        <mat-option value="option3">III.</mat-option>
+        <mat-option value="option3">IV.</mat-option>
+        <mat-option value="option3">V.</mat-option>
+        <mat-option value="option3">VI.</mat-option>
+        <mat-option value="option3">VII.</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div class="buttons">
+    <button mat-raised-button>Regisztráció</button>
+    <button mat-button>Bejelentkezés</button>
+  </div>
+
+</div>

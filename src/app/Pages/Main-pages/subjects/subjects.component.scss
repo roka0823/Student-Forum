@@ -1,0 +1,50 @@
+.subjects-card-container {
+  margin-top: 2%;
+  display: flex;
+  justify-content: center;
+}
+
+mat-card-content:first-child {
+  padding-top: 4px;
+}
+
+.mat-mdc-card-content{
+  padding: 6px;
+}
+
+mat-card{
+  min-width: 98%;
+}
+
+h2{
+  font-weight: bold;
+  font-size: 130%;
+  margin-bottom: 0;
+}
+
+.left{
+  margin-left: 1%;
+  width: 70%;
+}
+
+.content{
+  display: flex;
+  align-items: center;
+}
+
+.right {
+  width: 30%;
+  text-align: right;
+  align-items: center;
+  height: 100%;
+}
+
+.left .right {
+  flex-basis: 50%;
+}
+
+mat-icon {
+  margin-right: 5%;
+  font-size: 24px;
+}
+

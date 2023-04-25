@@ -6,5 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent {
+  felev: any;
+  szak: any;
 
 }
