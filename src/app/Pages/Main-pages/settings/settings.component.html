@@ -3,28 +3,28 @@
   <mat-card style="top: 10%; left: 10%;">
     <mat-card-content>
       <div class="button-container">
-        <button mat-button><p>Személyes adatok</p></button>
+        <button mat-button (click)="onOpenDialogPersonal()"><p>Személyes adatok</p></button>
       </div>
     </mat-card-content>
   </mat-card>
   <mat-card style="top: 10%; right: 10%;">
     <mat-card-content>
       <div class="button-container">
-        <button mat-button><p>Jelszó megváltoztatása</p></button>
+        <button mat-button (click)="onOpenDialogPassword()"><p>Jelszó megváltoztatása</p></button>
       </div>
     </mat-card-content>
   </mat-card>
   <mat-card style="bottom: 10%; left: 10%;">
     <mat-card-content>
       <div class="button-container">
-        <button mat-button><p>Tanulmányi beállítások</p></button>
+        <button mat-button (click)="onOpenDialogStudies()"><p>Tanulmányi beállítások</p></button>
       </div>
     </mat-card-content>
   </mat-card>
   <mat-card style="bottom: 10%; right: 10%;">
     <mat-card-content>
       <div class="button-container">
-        <button mat-button><p>Egyéb</p></button>
+        <button mat-button (click)="onOpenDialogOther()"><p>Egyéb</p></button>
       </div>
     </mat-card-content>
   </mat-card>

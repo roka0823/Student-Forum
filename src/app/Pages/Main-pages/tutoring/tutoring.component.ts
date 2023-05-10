@@ -17,4 +17,5 @@ export class TutoringComponent {
       height: '90%',
     });
   }
+
 }
