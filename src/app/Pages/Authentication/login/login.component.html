@@ -8,7 +8,7 @@
   <div class="email-password">
     <mat-form-field style="width:40vw">
       <mat-label>Írd be az email címed</mat-label>
-      <input matInput type="email"/>
+      <input matInput type="email" [formControl]="email" required/>
     </mat-form-field>
   </div>
   <div class="p-style">
@@ -17,11 +17,11 @@
   <div class="email-password">
     <mat-form-field style="width:40vw">
       <mat-label>Írd be a jelszavad</mat-label>
-      <input matInput type="email"/>
+      <input matInput type="email" [formControl]="password" required/>
     </mat-form-field>
   </div>
   <div class="buttons">
-    <button mat-raised-button>Bejelentkezés</button>
-    <button mat-button>Regisztráció</button>
+    <button mat-raised-button (click)="login()">Bejelentkezés</button>
+    <button mat-button [routerLink]="'/register'">Regisztráció</button>
   </div>
 </div>

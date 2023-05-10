@@ -5,17 +5,23 @@ import { TutoringRoutingModule } from './tutoring-routing.module';
 import { TutoringComponent } from './tutoring.component';
 import {MatButtonModule} from "@angular/material/button";
 import {MatCardModule} from "@angular/material/card";
+import { NewPostPopupDialogComponent } from './new-post-popup-dialog/new-post-popup-dialog.component';
+import {MatDialogModule} from "@angular/material/dialog";
+import {MatInputModule} from "@angular/material/input";
 
 
 @NgModule({
   declarations: [
-    TutoringComponent
+    TutoringComponent,
+    NewPostPopupDialogComponent
   ],
-    imports: [
-        CommonModule,
-        TutoringRoutingModule,
-        MatButtonModule,
-        MatCardModule
-    ]
+  imports: [
+    CommonModule,
+    TutoringRoutingModule,
+    MatButtonModule,
+    MatCardModule,
+    MatDialogModule,
+    MatInputModule
+  ]
 })
 export class TutoringModule { }

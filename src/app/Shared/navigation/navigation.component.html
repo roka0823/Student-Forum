@@ -49,11 +49,18 @@
           <span class="text">Beállítások</span>
         </div>
       </a>
-      <a mat-list-item (click)="logOut()" style="height: 5vw;">
+      <a mat-list-item (click)="logout()" style="height: 5vw;" *ngIf="(loggedInUser)">
         <div class="sidenav-item-container">
           <mat-icon class="icon" style="color: #d90f0f">logout</mat-icon>
           <br>
-          <span class="text">Főoldal</span>
+          <span class="text">Kilépés</span>
+        </div>
+      </a>
+      <a mat-list-item style="height: 5vw;" *ngIf="!(loggedInUser)">
+        <div class="sidenav-item-container">
+          <mat-icon class="icon" style="color: #34d90f">login</mat-icon>
+          <br>
+          <span class="text">Belépés</span>
         </div>
       </a>
     </mat-nav-list>
