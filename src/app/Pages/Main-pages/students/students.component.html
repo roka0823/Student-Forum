@@ -1,97 +1,17 @@
 <div class="page-container">
-  <div class="students-card-container">
+  <div class="students-card-container" *ngFor="let student of students">
     <mat-card>
       <mat-card-content>
         <div class="content">
           <div class="left">
-            <button mat-button (click)="goToProfile()"><h2>Valami név</h2></button>
-            <p>Programtervező Informatikus | I. félév |</p>
+            <button mat-button (click)="goToProfile(student)"><h2>{{ student.name.firstName }} {{ student.name.lastName }}</h2></button>
+            <p>{{ student.major }} | {{ student.semester }} félév</p>
           </div>
           <div class="right">
-            <button mat-icon-button (click)="addFriend()">
+            <button mat-icon-button (click)="addFriend(student)">
               <mat-icon>person_add</mat-icon>
             </button>
-            <button mat-icon-button (click)="writeMassage()">
-              <mat-icon>textsms</mat-icon>
-            </button>
-          </div>
-        </div>
-      </mat-card-content>
-    </mat-card>
-  </div>
-  <div class="students-card-container">
-    <mat-card>
-      <mat-card-content>
-        <div class="content">
-          <div class="left">
-            <button mat-button (click)="goToProfile()"><h2>Valami név</h2></button>
-            <p>Programtervező Informatikus | I. félév |</p>
-          </div>
-          <div class="right">
-            <button mat-icon-button (click)="addFriend()">
-              <mat-icon>person_add</mat-icon>
-            </button>
-            <button mat-icon-button (click)="writeMassage()">
-              <mat-icon>textsms</mat-icon>
-            </button>
-          </div>
-        </div>
-      </mat-card-content>
-    </mat-card>
-  </div>
-  <div class="students-card-container">
-    <mat-card>
-      <mat-card-content>
-        <div class="content">
-          <div class="left">
-            <button mat-button (click)="goToProfile()"><h2>Valami név</h2></button>
-            <p>Programtervező Informatikus | I. félév |</p>
-          </div>
-          <div class="right">
-            <button mat-icon-button (click)="addFriend()">
-              <mat-icon>person_add</mat-icon>
-            </button>
-            <button mat-icon-button (click)="writeMassage()">
-              <mat-icon>textsms</mat-icon>
-            </button>
-          </div>
-        </div>
-      </mat-card-content>
-    </mat-card>
-  </div>
-  <div class="students-card-container">
-    <mat-card>
-      <mat-card-content>
-        <div class="content">
-          <div class="left">
-            <button mat-button (click)="goToProfile()"><h2>Valami név</h2></button>
-            <p>Programtervező Informatikus | I. félév |</p>
-          </div>
-          <div class="right">
-            <button mat-icon-button (click)="addFriend()">
-              <mat-icon>person_add</mat-icon>
-            </button>
-            <button mat-icon-button (click)="writeMassage()">
-              <mat-icon>textsms</mat-icon>
-            </button>
-          </div>
-        </div>
-      </mat-card-content>
-    </mat-card>
-  </div>
-  <div class="students-card-container">
-    <mat-card>
-      <mat-card-content>
-        <div class="content">
-          <div class="left">
-            <button mat-button (click)="goToProfile()"><h2>Valami név</h2></button>
-            <p>Programtervező Informatikus | I. félév |</p>
-          </div>
-          <div class="right">
-            <button mat-icon-button (click)="addFriend()">
-              <mat-icon>person_add</mat-icon>
-            </button>
-            <button mat-icon-button (click)="writeMassage()">
+            <button mat-icon-button (click)="writeMessage(student)">
               <mat-icon>textsms</mat-icon>
             </button>
           </div>

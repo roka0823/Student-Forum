@@ -12,6 +12,7 @@ import { OtherSettingsComponent } from './dialogs/other-settings/other-settings.
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatInputModule} from "@angular/material/input";
 import {MatSelectModule} from "@angular/material/select";
+import {ReactiveFormsModule} from "@angular/forms";
 
 
 @NgModule({
@@ -22,14 +23,15 @@ import {MatSelectModule} from "@angular/material/select";
     StudiesSettingsComponent,
     OtherSettingsComponent
   ],
-  imports: [
-    CommonModule,
-    SettingsRoutingModule,
-    MatCardModule,
-    MatButtonModule,
-    MatDialogModule,
-    MatInputModule,
-    MatSelectModule
-  ]
+    imports: [
+        CommonModule,
+        SettingsRoutingModule,
+        MatCardModule,
+        MatButtonModule,
+        MatDialogModule,
+        MatInputModule,
+        MatSelectModule,
+        ReactiveFormsModule
+    ]
 })
 export class SettingsModule { }

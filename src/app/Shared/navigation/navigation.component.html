@@ -56,7 +56,7 @@
           <span class="text">Kilépés</span>
         </div>
       </a>
-      <a mat-list-item style="height: 5vw;" *ngIf="!(loggedInUser)">
+      <a mat-list-item (click)="onLogin()" style="height: 5vw;" *ngIf="!(loggedInUser)">
         <div class="sidenav-item-container">
           <mat-icon class="icon" style="color: #34d90f">login</mat-icon>
           <br>

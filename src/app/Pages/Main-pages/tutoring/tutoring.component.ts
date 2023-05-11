@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {NewPostPopupDialogComponent} from "./new-post-popup-dialog/new-post-popup-dialog.component";
+import {MassageDialogComponent} from "./massage-dialog/massage-dialog.component";
 
 @Component({
   selector: 'app-tutoring',
@@ -18,4 +19,14 @@ export class TutoringComponent {
     });
   }
 
+  writeMassage() {
+    const dialogRef = this.newPostDialog.open(MassageDialogComponent, {
+      width: '70%',
+      height: '90%',
+    });
+  }
+
+  onStartTutoring() {
+
+  }
 }

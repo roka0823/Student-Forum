@@ -3,9 +3,9 @@
     <img src="assets/images/basic_avatar_man.jpg" class="profile-avatar" alt="profile picture">
   </div>
   <div class="right">
-    <h2>Saját Nevem</h2>
-    <h3>Programtervező Informatikus Bsc.</h3>
-    <h4>I. félév</h4>
+    <h2>{{ lastName }} {{ firstName }}</h2>
+    <h3>{{ major }} szak</h3>
+    <h4>{{ semester }}. félév</h4>
   </div>
 </div>
 
@@ -17,14 +17,9 @@
           <h3>Tantárgyak</h3>
         </div>
         <div class="card-content-body">
-          <button mat-button><p>Valamilyen tantárgy 1</p></button>
-          <button mat-button><p>Valamilyen tantárgy 2</p></button>
-          <button mat-button><p>Valamilyen tantárgy 3</p></button>
-          <button mat-button><p>Valamilyen tantárgy 4</p></button>
-          <button mat-button><p>Valamilyen tantárgy 5</p></button>
-          <button mat-button><p>Valamilyen tantárgy 6</p></button>
-          <button mat-button><p>Valamilyen tantárgy 7</p></button>
-          <button mat-button><p>Valamilyen tantárgy 8</p></button>
+          <div *ngFor="let subject of subjects">
+            <button mat-button><p>{{ subject}}</p></button>
+          </div>
         </div>
       </mat-card-content>
     </mat-card>
@@ -36,14 +31,11 @@
           <h3>Ismerősök</h3>
         </div>
         <div class="card-content-body">
-          <button mat-button><p>Valamilyen ismerős 1</p></button>
-          <button mat-button><p>Valamilyen ismerős 2</p></button>
-          <button mat-button><p>Valamilyen ismerős 3</p></button>
-          <button mat-button><p>Valamilyen ismerős 4</p></button>
-          <button mat-button><p>Valamilyen ismerős 5</p></button>
-          <button mat-button><p>Valamilyen ismerős 6</p></button>
-          <button mat-button><p>Valamilyen ismerős 7</p></button>
-          <button mat-button><p>Valamilyen ismerős 8</p></button>
+          <div class="card-content-body">
+            <div *ngFor="let friend of friends">
+              <button mat-button><p>{{ friend }}</p></button>
+            </div>
+          </div>
         </div>
       </mat-card-content>
     </mat-card>
@@ -55,14 +47,9 @@
           <h3>Kitüntetések</h3>
         </div>
         <div class="card-content-body">
-          <button mat-button><p>Valamilyen kitüntetés 1</p></button>
-          <button mat-button><p>Valamilyen kitüntetés 2</p></button>
-          <button mat-button><p>Valamilyen kitüntetés 3</p></button>
-          <button mat-button><p>Valamilyen kitüntetés 4</p></button>
-          <button mat-button><p>Valamilyen kitüntetés 5</p></button>
-          <button mat-button><p>Valamilyen kitüntetés 6</p></button>
-          <button mat-button><p>Valamilyen kitüntetés 7</p></button>
-          <button mat-button><p>Valamilyen kitüntetés 8</p></button>
+          <div *ngFor="let badge of badges">
+            <button mat-button><p>{{ badge }}</p></button>
+          </div>
         </div>
       </mat-card-content>
     </mat-card>

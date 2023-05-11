@@ -26,11 +26,13 @@ import { provideRemoteConfig,getRemoteConfig } from '@angular/fire/remote-config
 import { provideStorage,getStorage } from '@angular/fire/storage';
 import {AngularFireModule} from "@angular/fire/compat";
 import { FIREBASE_OPTIONS } from '@angular/fire/compat';
+import { MassageDialogComponent } from './Pages/Main-pages/tutoring/massage-dialog/massage-dialog.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavigationComponent
+    NavigationComponent,
+    MassageDialogComponent
   ],
     imports: [
         BrowserModule,

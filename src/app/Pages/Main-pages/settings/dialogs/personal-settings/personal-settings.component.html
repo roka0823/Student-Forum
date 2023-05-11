@@ -2,41 +2,45 @@
   <div id="header">
     <p>Személyes adatok megváltoztatása</p>
   </div>
-  <div class="element-container">
-    <div class="element">
-      <b>Vezetéknév:</b>
+  <form [formGroup]="updateForm" (ngSubmit)="onSave()">
+    <div formGroupName="name" class="subForm">
+      <div class="element-container">
+        <div class="element">
+          <b>Vezetéknév:</b>
+        </div>
+        <div>
+          <mat-form-field>
+            <mat-label>Új vezetéknév</mat-label>
+            <input matInput value="{{ firstName }}" formControlName="firstName"/>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="element-container">
+        <div class="element">
+          <b>Keresztnév:</b>
+        </div>
+        <div>
+          <mat-form-field>
+            <mat-label>Új keresztnév</mat-label>
+            <input matInput value="{{ lastName }}" formControlName="lastName"/>
+          </mat-form-field>
+        </div>
+      </div>
     </div>
-    <div>
-      <mat-form-field>
-        <mat-label>Új vezetéknév</mat-label>
-        <input matInput placeholder="pl: Kiss">
-      </mat-form-field>
-    </div>
-  </div>
-  <div class="element-container">
-    <div class="element">
-      <b>Keresztnév:</b>
-    </div>
-    <div>
-      <mat-form-field>
-        <mat-label>Új keresztnév</mat-label>
-        <input matInput placeholder="pl: Pista">
-      </mat-form-field>
-    </div>
-  </div>
-  <div class="element-container">
-    <div class="element">
-      <b>Becenév:</b>
+    <div class="element-container">
+      <div class="element">
+        <b>Becenév:</b>
+      </div>
     </div>
     <div>
       <mat-form-field>
         <mat-label>Hogy szeretnéd, hogy hívjanak?</mat-label>
-        <input matInput placeholder="pl: Erőspista">
+        <input matInput value="{{ nickName }}" formControlName="nickName">
       </mat-form-field>
     </div>
-  </div>
-  <div class="buttons">
-    <button mat-raised-button>Mentés</button>
-    <button mat-button mat-dialog-close>Mégsem</button>
-  </div>
+    <div class="buttons">
+      <button mat-raised-button type="submit">Mentés</button>
+      <button mat-button mat-dialog-close>Mégsem</button>
+    </div>
+  </form>
 </div>

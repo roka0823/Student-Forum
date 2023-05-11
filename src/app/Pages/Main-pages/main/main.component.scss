@@ -1,0 +1,35 @@
+.homepage {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.welcome-section {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.what-happened-section h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.what-happened-section li {
+  margin-bottom: 20px;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 20px;
+}
+
+.what-happened-section li:last-child {
+  border-bottom: none;
+}
+
+.what-happened-section h3 {
+  font-size: 18px;
+  margin-top: 0;
+}
+
+.what-happened-section p {
+  font-size: 16px;
+  margin-bottom: 0;
+}
