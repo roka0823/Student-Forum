@@ -8,6 +8,8 @@ import {AuthenticationService} from "../Authentication/authentication.service";
 })
 export class UserService {
 
+
+
   collectionName = 'Users'
 
   constructor(private afs: AngularFirestore, private authService: AuthenticationService) { }
@@ -24,12 +26,22 @@ export class UserService {
     return this.afs.collection<User>(this.collectionName, ref => ref.where('id', '!=', this.authService.getId())).valueChanges();
   }
 
+  getLogged() {
+    return this.afs.collection<User>(this.collectionName, ref => ref.where('id', '==', this.authService.getId())).valueChanges();
+  }
+
+  getAllUsers() {
+    return this.afs.collection<User>(this.collectionName).valueChanges();
+  }
+
   update(user: User) {
     return this.afs.collection<User>(this.collectionName).doc(user.id).update(user);
   }
 
-
-  delete(){
-
+  getUserById(id: string) {
+    return this.afs.collection<User>(this.collectionName).doc(id).valueChanges();
   }
+
+
+
 }

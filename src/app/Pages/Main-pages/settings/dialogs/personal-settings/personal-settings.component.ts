@@ -28,7 +28,7 @@ export class PersonalSettingsComponent implements OnInit{
   firstName!: String;
   semester!: String;
   major!: String;
-  friends!: String[];
+  friends!: User[];
   subjects!: String[];
   badges!: String[];
   nickName!: String;
@@ -67,7 +67,7 @@ export class PersonalSettingsComponent implements OnInit{
       email: '',
       major: this.major as string,
       semester: this.semester as string,
-      friends: this.friends as string[],
+      friends: this.friends as User[],
       subjects: this.subjects as string[],
       badges: this.badges as string[],
       name: {

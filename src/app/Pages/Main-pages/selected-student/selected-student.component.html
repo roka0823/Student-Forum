@@ -3,14 +3,12 @@
     <img src="assets/images/basic_avatar_man.jpg" class="profile-avatar" alt="profile picture">
   </div>
   <div class="right">
-    <h2>{{ lastName }} {{ firstName }} (Én)</h2>
+    <h2>{{ lastName }} {{ firstName }}</h2>
     <h3>{{ major }} szak</h3>
     <h4>{{ semester }}. félév</h4>
   </div>
 </div>
-<div class="hoveredText">
-  <p *ngIf="isHovered" style="color: crimson">Ez a kitüntetés azoknak jár akik a szakdolgozat készítésekor csatlakoztak!</p>
-</div>
+
 <div class="card-container">
   <div class="card">
     <mat-card>
@@ -35,7 +33,7 @@
         <div class="card-content-body">
           <div class="card-content-body">
             <div *ngFor="let friend of friends">
-              <button mat-button (click)="goToProfile(friend)"><p>{{ friend.name.firstName }} {{ friend.name.lastName }}</p></button>
+              <button mat-button><p>{{ friend }}</p></button>
             </div>
           </div>
         </div>
@@ -50,7 +48,7 @@
         </div>
         <div class="card-content-body">
           <div *ngFor="let badge of badges">
-            <button mat-button (mouseover)="isHovered = true" (mouseout)="isHovered = false"><p>{{ badge }}</p></button>
+            <button mat-button><p>{{ badge }}</p></button>
           </div>
         </div>
       </mat-card-content>

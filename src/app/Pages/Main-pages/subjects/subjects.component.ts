@@ -14,8 +14,8 @@ export class SubjectsComponent implements OnInit{
   constructor(private router: Router, private subjectService: SubjectService) {
   }
 
-  goToSubjectPage() {
-    this.router.navigateByUrl("/selected-subject")
+  goToSubjectPage(subject: Subject) {
+    this.router.navigateByUrl(`/subjects/${subject.name}`);
   }
 
   joinSubjectForum() {

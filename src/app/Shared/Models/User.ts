@@ -8,7 +8,7 @@ export interface User {
   nickName: string;
   major: string;
   semester: string;
-  friends: string[];
+  friends: User[];
   subjects: string[];
   badges: string[];
 }

@@ -2,6 +2,7 @@
   <div id="header">
     <p>Új bejegyzés</p>
   </div>
+  <form [formGroup]="newPostForm" (ngSubmit)="onNewPostSubmit()">
   <div class="element-container">
     <div class="element">
       <b>Tantárgy:</b>
@@ -9,7 +10,7 @@
     <div>
       <mat-form-field>
         <mat-label>Miből kérsz segítséget?</mat-label>
-        <input matInput placeholder="pl: Kalkulus">
+        <input matInput placeholder="pl: Kalkulus" formControlName="want" required/>
       </mat-form-field>
     </div>
   </div>
@@ -19,8 +20,8 @@
     </div>
     <div>
       <mat-form-field>
-        <mat-label>Miből kérsz segítséget?</mat-label>
-        <input matInput placeholder="pl: Integrálás">
+        <mat-label>Melyik anyagrészből kérsz segítséget?</mat-label>
+        <input matInput placeholder="pl: Integrálás" formControlName="topic" required/>
       </mat-form-field>
     </div>
   </div>
@@ -31,7 +32,7 @@
     <div>
       <mat-form-field>
         <mat-label>Miből tudsz segíteni?</mat-label>
-        <input matInput placeholder="pl: Prog I.">
+        <input matInput placeholder="pl: Prog I." formControlName="offer" required/>
       </mat-form-field>
     </div>
   </div>
@@ -42,12 +43,14 @@
     <div>
       <mat-form-field>
         <mat-label>Részletes leírás</mat-label>
-        <textarea matInput></textarea>
+        <textarea matInput formControlName="description" required></textarea>
       </mat-form-field>
     </div>
   </div>
   <div class="buttons">
-    <button mat-raised-button>Mentés</button>
+    <button mat-raised-button type="submit">Mentés</button>
     <button mat-button mat-dialog-close>Mégsem</button>
   </div>
+  </form>
 </div>
+

@@ -4,7 +4,7 @@
       <mat-card-content>
         <div class="content">
           <div class="left">
-            <button mat-button (click)="goToSubjectPage()"><h2>{{subject.name}}</h2></button>
+            <button mat-button (click)="goToSubjectPage(subject)"><h2>{{subject.name}}</h2></button>
             <p>{{subject.recommended}} féléves tantárgy | {{subject.mandatory}} | {{subject.joinedUsers}} csatlakozott felhasználó   |
               {{subject.posts.length}} poszt</p>
           </div>
