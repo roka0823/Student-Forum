@@ -20,7 +20,7 @@
         </div>
         <div class="card-content-body">
           <div *ngFor="let subject of subjects">
-            <button mat-button><p>{{ subject}}</p></button>
+            <button mat-button (click)="goToSubjectPage(subject)"><p>{{ subject.name }}</p></button>
           </div>
         </div>
       </mat-card-content>
@@ -35,7 +35,7 @@
         <div class="card-content-body">
           <div class="card-content-body">
             <div *ngFor="let friend of friends">
-              <button mat-button (click)="goToProfile(friend)"><p>{{ friend.name.firstName }} {{ friend.name.lastName }}</p></button>
+              <button mat-button (click)="goToProfile(friend)"><p>{{ friend.name.lastName }} {{ friend.name.firstName }}</p></button>
             </div>
           </div>
         </div>

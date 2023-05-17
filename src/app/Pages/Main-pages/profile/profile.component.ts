@@ -5,6 +5,7 @@ import {UserService} from "../../../Shared/Services/User-services/user.service";
 import {user} from "@angular/fire/auth";
 import {object} from "@angular/fire/database";
 import {Router} from "@angular/router";
+import {Subject} from "../../../Shared/Models/Subject";
 
 
 @Component({
@@ -22,7 +23,7 @@ export class ProfileComponent implements OnInit, OnDestroy{
   semester!: String;
   major!: String;
   friends!: User[];
-  subjects!: String[];
+  subjects!: Subject[];
   badges!: String[];
   isHovered = false;
   constructor(private userService: UserService, private router: Router) {
@@ -51,5 +52,9 @@ export class ProfileComponent implements OnInit, OnDestroy{
 
   goToProfile(user: User) {
     this.router.navigateByUrl(`/students/${user.id}`);
+  }
+
+  goToSubjectPage(subject: Subject) {
+    this.router.navigateByUrl(`/subjects/${subject.name}`);
   }
 }

@@ -18,10 +18,6 @@ export class TutoringService {
     return this.afs.collection<TutoringPost>(this.collectionName).valueChanges();
   }
 
-  getPostId(){
-
-  }
-
   deletePost(postId: string) {
     return this.afs.collection<TutoringPost>(this.collectionName).doc(postId).delete();
   }

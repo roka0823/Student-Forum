@@ -1,3 +1,5 @@
+import {Subject} from "./Subject";
+
 export interface User {
   id: string;
   email: string;
@@ -9,6 +11,6 @@ export interface User {
   major: string;
   semester: string;
   friends: User[];
-  subjects: string[];
+  subjects: Subject[];
   badges: string[];
 }

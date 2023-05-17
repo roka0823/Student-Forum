@@ -18,6 +18,8 @@ export class UserService {
     return this.afs.collection<User>(this.collectionName).doc(user.id).set(user);
   }
 
+
+
   loadUser() {
     return this.afs.collection<User>(this.collectionName, ref => ref.where('id', '==', this.authService.getId())).valueChanges();
   }
@@ -26,9 +28,6 @@ export class UserService {
     return this.afs.collection<User>(this.collectionName, ref => ref.where('id', '!=', this.authService.getId())).valueChanges();
   }
 
-  getLogged() {
-    return this.afs.collection<User>(this.collectionName, ref => ref.where('id', '==', this.authService.getId())).valueChanges();
-  }
 
   getAllUsers() {
     return this.afs.collection<User>(this.collectionName).valueChanges();

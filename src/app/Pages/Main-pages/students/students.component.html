@@ -8,7 +8,7 @@
             <p>{{ student.major }} | {{ student.semester }} félév</p>
           </div>
           <div class="right">
-            <button mat-icon-button (click)="addFriend(student)">
+            <button mat-icon-button *ngIf="!isUserAlreadyFriend(student)" (click)="addFriend(student)">
               <mat-icon>person_add</mat-icon>
             </button>
             <button mat-icon-button (click)="writeMessage(student)">

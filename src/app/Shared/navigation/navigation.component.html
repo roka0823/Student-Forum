@@ -74,7 +74,10 @@
   </mat-sidenav>
   <mat-sidenav-content>
     <div class="header-nav">
-      <button mat-icon-button (click)="goBack()"><mat-icon class="back-icon">keyboard_arrow_left</mat-icon></button>
+      <button mat-button (click)="goBack()">
+        <mat-icon class="back-icon">keyboard_arrow_left</mat-icon>
+        <p class="title-name">{{ getPathName() }}</p>
+      </button>
     </div>
     <div class="card-container">
           <div class="card-content-container">

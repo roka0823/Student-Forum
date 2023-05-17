@@ -1,8 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {User} from "../../../Shared/Models/User";
 import {UserService} from "../../../Shared/Services/User-services/user.service";
 import {Router} from "@angular/router";
 import {map, Observable, Subscription} from "rxjs";
+import {Subject} from "../../../Shared/Models/Subject";
 
 
 @Component({
@@ -10,7 +11,7 @@ import {map, Observable, Subscription} from "rxjs";
   templateUrl: './students.component.html',
   styleUrls: ['./students.component.scss']
 })
-export class StudentsComponent implements OnInit {
+export class StudentsComponent implements OnInit, OnDestroy {
   students: User[] = [];
 
   private userSubscription: Subscription | null = null;
@@ -43,30 +44,45 @@ export class StudentsComponent implements OnInit {
     this.router.navigateByUrl(`/students/${user.id}`);
   }
 
-  addFriend(student: User) {
+  async addFriend(student: User) {
     // Check if the student is already a friend
-    if (this.loggedInUser.friends.some(friend => friend.email === student.email)) {
-      console.log(`${student.name.firstName} ${student.name.lastName} is already your friend.`);
+    if (this.loggedInUser.friends && this.loggedInUser.friends.some(friend => friend.email === student.email)) {
+      window.alert(`${student.name.firstName} ${student.name.lastName} is already your friend.`);
     } else {
       // Add the student to the friends array in memory
-      this.loggedInUser.friends.push(student);
-
+      if (this.loggedInUser.friends) {
+        this.loggedInUser.friends.push(student);
+      } else {
+        this.loggedInUser.friends = [student];
+      }
       // Update the friends array in the database
-      this.userService.update(this.loggedInUser)
-        .then(() => {
-          console.log(`${student.name.firstName} ${student.name.lastName} has been added to your friends.`);
-        })
-        .catch(error => {
-          console.error('Error updating user document:', error);
-        });
+      try {
+        await this.userService.update(this.loggedInUser);
+        window.alert(`${student.name.firstName} ${student.name.lastName} has been added to your friends.`);
+        student.friends.push(this.loggedInUser);
+        await this.userService.update(student);
+      } catch (error) {
+        console.error('Error updating user document:', error);
+      }
     }
   }
 
 
-
+  isUserAlreadyFriend(newFriend: User): boolean {
+    if (this.loggedInUser && this.loggedInUser.friends && this.loggedInUser.friends.some(student => student.id === newFriend.id)) {
+      return true;
+    } else {
+      return false
+    }
+  }
 
   writeMessage(student: User) {
     // implement your logic for writing a message
   }
+
+  ngOnDestroy(): void {
+    this.userSubscription?.unsubscribe();
+  }
+
 }
 

@@ -84,9 +84,26 @@ mat-card {
 }
 
 .header-nav {
+  display: flex;
+  align-items: center;
   margin-top: 2%;
   margin-left: 2%;
   position: fixed;
+  width: 80%;
+}
+
+.back-icon {
+  align-items: center;
+}
+
+.title-name {
+  font-size: 18px;
+}
+
+.nav-text {
+  margin-left: 10px;
+  align-items: center;
+  line-height: 32px;
 }
 
 .back-icon{

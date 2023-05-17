@@ -3,6 +3,7 @@ import {StudentService} from "../../../Shared/Services/Student-services/student.
 import {ActivatedRoute} from "@angular/router";
 import {User} from "../../../Shared/Models/User";
 import {UserService} from "../../../Shared/Services/User-services/user.service";
+import {Subject} from "../../../Shared/Models/Subject";
 
 @Component({
   selector: 'app-selected-student',
@@ -16,7 +17,7 @@ export class SelectedStudentComponent implements OnInit{
   firstName: string | null = null;
   lastName: string | null = null;
   major: string | null = null;
-  subjects: string[] | null = null;
+  subjects: Subject[] | null = null;
   friends: User[] | null = null;
   badges: string[] | null = null;
   semester: string | null = null;

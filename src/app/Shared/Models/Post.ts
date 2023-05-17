@@ -8,4 +8,8 @@ export interface Post {
   comments: Comment[];
   author: User;
   time: firebase.firestore.Timestamp;
+
+  id?: string;
+
+
 }

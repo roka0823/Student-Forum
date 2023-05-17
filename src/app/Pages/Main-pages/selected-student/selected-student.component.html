@@ -33,7 +33,7 @@
         <div class="card-content-body">
           <div class="card-content-body">
             <div *ngFor="let friend of friends">
-              <button mat-button><p>{{ friend }}</p></button>
+              <button mat-button><p>{{ friend.name.lastName }} {{ friend.name.firstName }}</p></button>
             </div>
           </div>
         </div>

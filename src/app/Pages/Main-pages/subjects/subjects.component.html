@@ -8,8 +8,8 @@
             <p>{{subject.recommended}} féléves tantárgy | {{subject.mandatory}} | {{subject.joinedUsers}} csatlakozott felhasználó   |
               {{subject.posts.length}} poszt</p>
           </div>
-          <div class="right">
-            <button mat-button (click)="joinSubjectForum()">
+          <div class="right" *ngIf="!isUserJoinedSubject(subject)">
+            <button mat-button (click)="joinSubjectForum(subject)">
               <p>Csatlakozás</p>
             </button>
           </div>

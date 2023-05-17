@@ -4,6 +4,7 @@ import {User} from "../../../../../Shared/Models/User";
 import {UserService} from "../../../../../Shared/Services/User-services/user.service";
 import {FormControl, FormGroup} from "@angular/forms";
 import {AuthenticationService} from "../../../../../Shared/Services/Authentication/authentication.service";
+import {Subject} from "../../../../../Shared/Models/Subject";
 
 @Component({
   selector: 'app-personal-settings',
@@ -29,7 +30,7 @@ export class PersonalSettingsComponent implements OnInit{
   semester!: String;
   major!: String;
   friends!: User[];
-  subjects!: String[];
+  subjects!: Subject[];
   badges!: String[];
   nickName!: String;
 
@@ -68,7 +69,7 @@ export class PersonalSettingsComponent implements OnInit{
       major: this.major as string,
       semester: this.semester as string,
       friends: this.friends as User[],
-      subjects: this.subjects as string[],
+      subjects: this.subjects as Subject[],
       badges: this.badges as string[],
       name: {
         firstName: firstName as string,

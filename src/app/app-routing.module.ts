@@ -14,6 +14,7 @@ const routes: Routes =
       { path: 'settings', loadChildren: () => import('./Pages/Main-pages/settings/settings.module').then(m => m.SettingsModule) },
       { path: 'not-found', loadChildren: () => import('./Pages/Main-pages/not-found/not-found.module').then(m => m.NotFoundModule) },
       { path: '',  redirectTo: '/main', pathMatch: 'full'},
+      { path: 'notifications', loadChildren: () => import('./Pages/Main-pages/notifications/notifications.module').then(m => m.NotificationsModule) },
       { path: '**',  redirectTo: '/not-found', pathMatch: 'full'}];
 
 @NgModule({

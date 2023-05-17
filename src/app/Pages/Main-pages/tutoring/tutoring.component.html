@@ -22,6 +22,7 @@
             <button mat-raised-button (click)="writeMassage()" *ngIf="post.author.id !== currentUserId">Üzenet</button>
             <button mat-raised-button (click)="onStartTutoring()"
                     *ngIf="post.author.id !== currentUserId">Korrepetálás</button>
+            <button mat-raised-button (click)="deletePost(post?.id!)" *ngIf="post.author.id === currentUserId">Törlés</button>
           </span>
           </div>
         </div>

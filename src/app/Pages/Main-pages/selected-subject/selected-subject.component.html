@@ -1,1 +1,44 @@
-<p>selected-subject works!</p>
+<div class="new-button">
+  <button mat-stroked-button (click)="onOpenDialog()">Új post</button>
+</div>
+<div *ngFor="let subject of subjects">
+  <div *ngFor="let post of subject.posts" class="post-container">
+    <mat-card class="post-card">
+      <mat-card-content>
+        <div class="header">
+          <b class="title">{{ post.title }}</b>
+          <p class="author">{{ post.author.name.lastName }} {{ post.author.name.firstName }}: {{ post.time.toDate() | date:'yyyy/MM/dd'  }}</p>
+        </div>
+        <div class="description">
+          {{ post.description }}
+        </div>
+        <div class="comment-container">
+          <mat-form-field class="comment-field">
+            <textarea matInput placeholder="Write a comment"></textarea>
+          </mat-form-field>
+          <div class="button-container">
+            <button mat-button class="add-button">
+              <mat-icon>add_circle</mat-icon>
+            </button>
+            <button mat-button class="send-button">
+              <mat-icon>send</mat-icon>
+            </button>
+          </div>
+        </div>
+        <div class="comment-section-container">
+          <mat-card class="com-card">
+            <mat-card-content>
+              <div class="com-meta">
+                <p class="com-author">{{ author }}</p>
+                <p class="com-time">{{ time }}</p>
+              </div>
+              <div class="com-header">
+                <p class="com-title">{{ description }}</p>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
