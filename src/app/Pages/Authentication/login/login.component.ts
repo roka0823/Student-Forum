@@ -10,11 +10,9 @@ import {Router} from "@angular/router";
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit, OnDestroy{
-
   email = new FormControl('');
   password = new FormControl('');
   loadingSubscription?: Subscription;
-  loadingObservation?: Observable<boolean>;
 
   loading: boolean = false;
 
@@ -24,16 +22,14 @@ export class LoginComponent implements OnInit, OnDestroy{
   ngOnInit(): void {
   }
 
-  async login() {
+  login() {
     this.loading = true;
     const email = this.email.value || '';
     const password = this.password.value || '';
     this.authService.login(email, password).then(cred => {
       console.log(cred);
-      this.router.navigateByUrl('/profile');
-      this.loading = false;
+      this.router.navigateByUrl('/main');
     }).catch(error => {
-      this.loading = false;
     });
   }
 

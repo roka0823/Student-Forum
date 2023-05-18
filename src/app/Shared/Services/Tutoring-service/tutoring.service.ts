@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {AngularFirestore} from "@angular/fire/compat/firestore";
 import {TutoringPost} from "../../Models/Tutoring-post";
+import {User} from "../../Models/User";
 
 @Injectable({
   providedIn: 'root'
@@ -18,8 +19,13 @@ export class TutoringService {
     return this.afs.collection<TutoringPost>(this.collectionName).valueChanges();
   }
 
-  deletePost(postId: string) {
-    return this.afs.collection<TutoringPost>(this.collectionName).doc(postId).delete();
+  update(post: TutoringPost) {
+    return this.afs.collection<TutoringPost>(this.collectionName).doc(post.id).update(post);
+  }
+
+  deletePost(post: TutoringPost) {
+    const documentRef = this.afs.collection<TutoringPost>(this.collectionName).doc(post.id);
+    return documentRef.delete();
   }
 
 

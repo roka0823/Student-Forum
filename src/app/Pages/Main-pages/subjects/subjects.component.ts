@@ -11,12 +11,13 @@ import {UserService} from "../../../Shared/Services/User-services/user.service";
   templateUrl: './subjects.component.html',
   styleUrls: ['./subjects.component.scss']
 })
-export class SubjectsComponent implements OnInit, OnDestroy{
+export class SubjectsComponent implements OnInit, OnDestroy {
 
   subjects: Subject[] = [];
   private userSubscription: Subscription | null = null;
   loggedInUser!: User;
   object: Observable<Array<User>>
+
   constructor(private router: Router, private subjectService: SubjectService, private userService: UserService) {
     this.object = this.userService.loadUser()
   }
@@ -41,9 +42,12 @@ export class SubjectsComponent implements OnInit, OnDestroy{
 
   goToSubjectPage(subject: Subject) {
     const encodedSubjectName = encodeURI(subject.name);
-    this.router.navigateByUrl(`/subjects/${encodedSubjectName}`);
+    if (this.isUserJoinedSubject(subject)) {
+      this.router.navigateByUrl(`/subjects/${encodedSubjectName}`);
+    } else {
+      window.alert('Először csatlakozz a fórumhoz!')
+    }
   }
-
 
 
   joinSubjectForum(newSubject: Subject) {
@@ -81,4 +85,28 @@ export class SubjectsComponent implements OnInit, OnDestroy{
     }
   }
 
+  deleteSubjectForum(newSubject: Subject) {
+    const filteredSubjects = this.loggedInUser.subjects.filter(subject => subject.name !== newSubject.name);
+
+    if (filteredSubjects.length < this.loggedInUser.subjects.length) {
+      this.loggedInUser.subjects = filteredSubjects;
+
+      this.userService.update(this.loggedInUser)
+        .then(() => {
+          window.alert(`felvetted a következőt a tantárgyaid közé: ${newSubject.name}.`);
+        })
+        .catch(error => {
+          console.error('Error updating user document:', error);
+        });
+
+      newSubject.joinedUsers--;
+      this.subjectService.updateSubject(newSubject).then(() => {
+        console.log('updated');
+      }).catch(error => {
+        console.log(error);
+      });
+    } else {
+      window.alert(`${newSubject.name} már nem szerepel a tantárgyaid között.`);
+    }
+  }
 }

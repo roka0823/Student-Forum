@@ -10,6 +10,7 @@ import {MatInputModule} from "@angular/material/input";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { NewPostComponent } from './new-post/new-post.component';
 import {MatDialogModule} from "@angular/material/dialog";
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 
 @NgModule({
@@ -17,16 +18,17 @@ import {MatDialogModule} from "@angular/material/dialog";
     SelectedSubjectComponent,
     NewPostComponent
   ],
-  imports: [
-    CommonModule,
-    SelectedSubjectRoutingModule,
-    MatCardModule,
-    MatButtonModule,
-    MatIconModule,
-    MatInputModule,
-    FormsModule,
-    MatDialogModule,
-    ReactiveFormsModule
-  ]
+    imports: [
+        CommonModule,
+        SelectedSubjectRoutingModule,
+        MatCardModule,
+        MatButtonModule,
+        MatIconModule,
+        MatInputModule,
+        FormsModule,
+        MatDialogModule,
+        ReactiveFormsModule,
+        MatTooltipModule
+    ]
 })
 export class SelectedSubjectModule { }

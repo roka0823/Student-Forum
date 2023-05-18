@@ -10,7 +10,7 @@ import {User} from "../../../Shared/Models/User";
 import {AuthenticationService} from "../../../Shared/Services/Authentication/authentication.service";
 import firebase from "firebase/compat/app";
 import {Subscription, take} from "rxjs";
-
+import { v4 as uuidv4 } from 'uuid';
 
 @Component({
   selector: 'app-tutoring',
@@ -19,6 +19,7 @@ import {Subscription, take} from "rxjs";
 })
 export class TutoringComponent implements OnInit, OnDestroy {
 
+  menu: number = 1;
   private userSubscription: Subscription | null = null;
   private dialogSubscription: Subscription | null = null;
   tutoringPosts: TutoringPost[] = [];
@@ -57,13 +58,16 @@ export class TutoringComponent implements OnInit, OnDestroy {
           return;
         }
         const tutoringPost: TutoringPost = {
+          id: uuidv4(),
           want: wantP,
           topic: topicP,
           offer: offerP,
           description: descriptionP as string,
           author: currentUser,
           time: firebase.firestore.Timestamp.now(),
+          active: false
         };
+        console.log(tutoringPost.id)
         this.tutorService.createPost(tutoringPost).then((docRef) => {
           console.log('Post added successfully with ID:', docRef.id);
           tutoringPost.id = docRef.id; // set the id property after it has been created
@@ -82,8 +86,10 @@ export class TutoringComponent implements OnInit, OnDestroy {
     });
   }
 
-  onStartTutoring() {
-    console.log(this.tutoringPosts[0].author.name)
+  onStartTutoring(post: TutoringPost) {
+    post.active = false;
+    console.log(post.id)
+    this.tutorService.update(post);
   }
 
   getUser(authorId: string): User | undefined {
@@ -129,11 +135,18 @@ export class TutoringComponent implements OnInit, OnDestroy {
     }
   }
 
-  deletePost(postId: string): void {
-    this.tutorService.deletePost(postId).then(() => {
-      console.log('Post deleted successfully');
+  deletePost(post: TutoringPost): void {
+    console.log(post)
+    this.tutorService.deletePost(post).then(() => {
     }).catch(error => {
       console.error(error);
     });
+  }
+
+  setMenu(value: number) {
+    this.menu = value;
+  }
+  getMenu() {
+    return this.menu;
   }
 }

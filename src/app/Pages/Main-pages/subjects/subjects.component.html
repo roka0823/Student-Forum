@@ -9,8 +9,15 @@
               {{subject.posts.length}} poszt</p>
           </div>
           <div class="right" *ngIf="!isUserJoinedSubject(subject)">
-            <button mat-button (click)="joinSubjectForum(subject)">
+            <button mat-button (click)="joinSubjectForum(subject)"
+                    matTooltip="{{ subject.name }} felvétele a tantárgyaidhoz">
               <p>Csatlakozás</p>
+            </button>
+          </div>
+          <div class="right" *ngIf="isUserJoinedSubject(subject)">
+            <button mat-button (click)="deleteSubjectForum(subject)"
+                    matTooltip="{{ subject.name }} törlése a tantárgyaid közül">
+              <p>Kilépés</p>
             </button>
           </div>
         </div>

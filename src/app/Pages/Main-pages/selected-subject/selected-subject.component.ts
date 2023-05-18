@@ -10,21 +10,17 @@ import {AuthenticationService} from "../../../Shared/Services/Authentication/aut
 import {Post} from "../../../Shared/Models/Post";
 import firebase from "firebase/compat/app";
 import {NewPostComponent} from "./new-post/new-post.component";
+import {FormControl, FormGroup} from "@angular/forms";
+import {Comment} from "../../../Shared/Models/Comment";
 
 @Component({
   selector: 'app-selected-subject',
   templateUrl: './selected-subject.component.html',
   styleUrls: ['./selected-subject.component.scss']
 })
-export class SelectedSubjectComponent implements OnInit, OnDestroy{
-  description: any = 'Sziasztok! Segítséget szeretnék kérni ebben aaaaaaaaaaa aaaaaa a aaaaa a a aaaaa aaa aaa aaaaaaa aaaa aaa aaa a assssssa dasd asd asd sadsad asdsd  a a ';
-  time: any = '2023:05:13 13:12';
-  author: any = 'Kis Pista';
-  showComment = false;
-  text: any= 'Nagyon szépen köszönöm';
+export class SelectedSubjectComponent implements OnInit, OnDestroy {
 
   subjects: Subject[] = [];
-  posts: Post[] = [];
   private subjectSubscription: Subscription | null = null;
 
   private userSubscription: Subscription | null = null;
@@ -84,17 +80,6 @@ export class SelectedSubjectComponent implements OnInit, OnDestroy{
     return subjectName;
   }
 
-  ngOnInit(): void {
-    this.subjectSubscription = this.subjectService.loadSubject(this.getSubjectName()).subscribe(subjects => {
-      this.subjects = subjects;
-      this.subjects[0].posts
-    });
-    this.userService.getAllUsers().pipe(take(1)).subscribe((users) => {
-      this.users = users;
-      this.cdRef.detectChanges();
-    });
-  }
-
   ngOnDestroy(): void {
     if (this.subjectSubscription) {
       this.subjectSubscription.unsubscribe();
@@ -107,4 +92,41 @@ export class SelectedSubjectComponent implements OnInit, OnDestroy{
     }
   }
 
+  newCommentForm = new FormGroup({
+    text: new FormControl(''),
+    author: new FormControl(''),
+    time: new FormControl(''),
+  })
+
+  ngOnInit(): void {
+    this.subjectSubscription = this.subjectService.loadSubject(this.getSubjectName()).subscribe(subjects => {
+      this.subjects = subjects;
+      this.subjects[0].posts
+    });
+    this.userService.getAllUsers().pipe(take(1)).subscribe((users) => {
+      this.users = users;
+      this.cdRef.detectChanges();
+    });
+  }
+
+  submitComment(postId: string) {
+    this.userService.loadUser().subscribe((users: User[]) => {
+      const currentUser = users[0];
+      const newComment: Comment = {
+        text: this.newCommentForm.get('text')!.value as string,
+        author: currentUser,
+        time: firebase.firestore.Timestamp.now()
+      };
+      this.subjects.forEach(subject => {
+        subject.posts.forEach(post => {
+          if (post.id === postId) {
+            post.comments.push(newComment);
+            this.subjectService.updateSubject(this.subjects[0]);
+            this.newCommentForm.reset();
+          }
+        });
+      });
+      this.newCommentForm.reset();
+    });
+  }
 }

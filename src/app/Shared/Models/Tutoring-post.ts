@@ -10,7 +10,7 @@ export interface TutoringPost {
   topic: string;
   offer: string;
   description: string;
-
   author: User;
   time: firebase.firestore.Timestamp;
+  active: boolean;
 }

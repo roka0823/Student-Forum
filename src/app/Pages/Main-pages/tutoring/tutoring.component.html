@@ -1,32 +1,75 @@
 <div class="page-container">
   <div class="button-div">
-    <button mat-raised-button (click)="onOpenDialog()">+ Új bejegyzés</button>
+    <button mat-raised-button (click)="onOpenDialog()" matTooltip="Új poszt írása">+ Új bejegyzés</button>
+    <button mat-raised-button [matMenuTriggerFor]="menu">Korrepetálás fajta választása</button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item value="1" (click)="setMenu(1)">Korrepetálásra vár</button>
+      <button mat-menu-item value="2" (click)="setMenu(2)">Aktív korrepetálások</button>
+    </mat-menu>
   </div>
-  <div class="car-container" *ngFor="let post of tutoringPosts">
-    <mat-card>
-      <mat-card-content>
-        <div>
+  <div *ngIf="getMenu() == 1">
+    <div class="car-container" *ngFor="let post of tutoringPosts">
+      <mat-card *ngIf="!post.active">
+        <mat-card-content>
           <div>
-            <p *ngIf="post.author.id !== currentUserId">{{ getAuthorName(post.author.id) }}
-              : {{ post.time.toDate() | date:'yyyy/MM/dd' }}</p>
-            <p *ngIf="post.author.id === currentUserId"> Én: {{ post.time.toDate() | date:'yyyy/MM/dd' }}</p>
-            <b>Korrepetlást szeretnék: <span> {{ post.want }} </span></b> <br>
-            <b>Melyik anyagrész: <span> {{ post.topic }} </span> </b> <br>
-            <b>Miben tudok segíteni cserébe: <span> {{ post.offer }} </span></b>
-          </div>
-          <div>
-            <b>Leírás:</b> <span class="desciption"> <p> {{ post.description }} </p></span>
-          </div>
-          <div class="button-container-div">
+            <div>
+              <p *ngIf="post.author.id !== currentUserId">{{ getAuthorName(post.author.id) }}
+                : {{ post.time.toDate() | date:'yyyy/MM/dd' }}</p>
+              <p *ngIf="post.author.id === currentUserId"> Én: {{ post.time.toDate() | date:'yyyy/MM/dd' }}</p>
+              <b>Korrepetlást szeretnék: <span> {{ post.want }} </span></b> <br>
+              <b>Melyik anyagrész: <span> {{ post.topic }} </span> </b> <br>
+              <b>Miben tudok segíteni cserébe: <span> {{ post.offer }} </span></b>
+            </div>
+            <div>
+              <b>Leírás:</b> <span class="desciption"> <p> {{ post.description }} </p></span>
+            </div>
+            <div class="button-container-div">
           <span>
-            <button mat-raised-button (click)="writeMassage()" *ngIf="post.author.id !== currentUserId">Üzenet</button>
-            <button mat-raised-button (click)="onStartTutoring()"
+            <button mat-raised-button (click)="writeMassage()" *ngIf="post.author.id !== currentUserId"
+                    matTooltip="Üzenet küldése neki: {{ post.author.name.lastName }} {{post.author.name.firstName}}"
+            >Üzenet</button>
+            <button mat-raised-button (click)="onStartTutoring(post)"
+                    matTooltip="Korrepetálás megkezdése vele: {{ post.author.name.lastName }} {{post.author.name.firstName}}"
                     *ngIf="post.author.id !== currentUserId">Korrepetálás</button>
-            <button mat-raised-button (click)="deletePost(post?.id!)" *ngIf="post.author.id === currentUserId">Törlés</button>
+            <button mat-raised-button (click)="deletePost(post)"
+                    matTooltip="A poszt végleges törlése!"
+                    *ngIf="post.author.id === currentUserId">Törlés</button>
           </span>
+            </div>
           </div>
-        </div>
-      </mat-card-content>
-    </mat-card>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+  <div *ngIf="getMenu() == 2">
+    <div class="car-container" *ngFor="let post of tutoringPosts">
+      <mat-card *ngIf="post.active">
+        <mat-card-content>
+          <div>
+            <div>
+              <p *ngIf="post.author.id !== currentUserId">{{ getAuthorName(post.author.id) }}
+                : {{ post.time.toDate() | date:'yyyy/MM/dd' }}</p>
+              <p *ngIf="post.author.id === currentUserId"> Én: {{ post.time.toDate() | date:'yyyy/MM/dd' }}</p>
+              <b>Korrepetlást szeretnék: <span> {{ post.want }} </span></b> <br>
+              <b>Melyik anyagrész: <span> {{ post.topic }} </span> </b> <br>
+              <b>Miben tudok segíteni cserébe: <span> {{ post.offer }} </span></b>
+            </div>
+            <div>
+              <b>Leírás:</b> <span class="desciption"> <p> {{ post.description }} </p></span>
+            </div>
+            <div class="button-container-div">
+          <span>
+            <button mat-raised-button (click)="writeMassage()" *ngIf="post.author.id !== currentUserId"
+                    matTooltip="Üzenet küldése neki: {{ post.author.name.lastName }} {{post.author.name.firstName}}"
+            >Üzenet</button>
+            <button mat-raised-button (click)="deletePost(post)"
+                    matTooltip="A poszt végleges törlése!"
+                    *ngIf="post.author.id === currentUserId">Törlés</button>
+          </span>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
   </div>
 </div>

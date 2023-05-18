@@ -4,14 +4,18 @@
       <mat-card-content>
         <div class="content">
           <div class="left">
-            <button mat-button (click)="goToProfile(student)"><h2>{{ student.name.lastName }} {{ student.name.firstName }}</h2></button>
+            <button mat-button (click)="goToProfile(student)"
+                    matTooltip="Ugrás a profilra"
+            ><h2>{{ student.name.lastName }} {{ student.name.firstName }}</h2></button>
             <p>{{ student.major }} | {{ student.semester }} félév</p>
           </div>
           <div class="right">
-            <button mat-icon-button *ngIf="!isUserAlreadyFriend(student)" (click)="addFriend(student)">
+            <button mat-icon-button *ngIf="!isUserAlreadyFriend(student)" (click)="addFriend(student)"
+                    matTooltip="{{ student.name.firstName }} {{ student.name.firstName }} hozzáadása a barátaidhoz">
               <mat-icon>person_add</mat-icon>
             </button>
-            <button mat-icon-button (click)="writeMessage(student)">
+            <button mat-icon-button (click)="writeMessage(student)"
+                    matTooltip="Üzenet küldése neki: {{ student.name.lastName }} {{ student.name.firstName }}">
               <mat-icon>textsms</mat-icon>
             </button>
           </div>

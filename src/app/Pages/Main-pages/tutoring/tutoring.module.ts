@@ -9,6 +9,9 @@ import { NewPostPopupDialogComponent } from './new-post-popup-dialog/new-post-po
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatInputModule} from "@angular/material/input";
 import {ReactiveFormsModule} from "@angular/forms";
+import {MatTooltipModule} from "@angular/material/tooltip";
+import {MatButtonToggleModule} from "@angular/material/button-toggle";
+import {MatMenuModule} from "@angular/material/menu";
 
 
 @NgModule({
@@ -16,14 +19,17 @@ import {ReactiveFormsModule} from "@angular/forms";
     TutoringComponent,
     NewPostPopupDialogComponent
   ],
-    imports: [
-        CommonModule,
-        TutoringRoutingModule,
-        MatButtonModule,
-        MatCardModule,
-        MatDialogModule,
-        MatInputModule,
-        ReactiveFormsModule
-    ]
+  imports: [
+    CommonModule,
+    TutoringRoutingModule,
+    MatButtonModule,
+    MatCardModule,
+    MatDialogModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    MatTooltipModule,
+    MatButtonToggleModule,
+    MatMenuModule
+  ]
 })
 export class TutoringModule { }
