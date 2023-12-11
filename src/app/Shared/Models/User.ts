@@ -10,7 +10,7 @@ export interface User {
   nickName: string;
   major: string;
   semester: string;
-  friends: User[];
-  subjects: Subject[];
+  friends: string[];
+  subjects: string[];
   badges: string[];
 }

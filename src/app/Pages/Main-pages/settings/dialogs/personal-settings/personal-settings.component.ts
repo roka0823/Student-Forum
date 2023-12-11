@@ -24,15 +24,15 @@ export class PersonalSettingsComponent implements OnInit{
 
   object: Observable<Array<User>>
 
-  email!: String;
-  lastName!: String;
-  firstName!: String;
-  semester!: String;
-  major!: String;
-  friends!: User[];
-  subjects!: Subject[];
-  badges!: String[];
-  nickName!: String;
+  email!: string;
+  lastName!: string;
+  firstName!: string;
+  semester!: string;
+  major!: string;
+  friends!: string[];
+  subjects!: string[];
+  badges!: string[];
+  nickName!: string;
 
   constructor(private userService: UserService, private authService: AuthenticationService) {
     this.object = this.userService.loadUser()
@@ -68,8 +68,8 @@ export class PersonalSettingsComponent implements OnInit{
       email: '',
       major: this.major as string,
       semester: this.semester as string,
-      friends: this.friends as User[],
-      subjects: this.subjects as Subject[],
+      friends: this.friends,
+      subjects: this.subjects,
       badges: this.badges as string[],
       name: {
         firstName: firstName as string,

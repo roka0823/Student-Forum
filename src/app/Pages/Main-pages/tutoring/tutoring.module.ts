@@ -12,6 +12,7 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {MatMenuModule} from "@angular/material/menu";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 
 @NgModule({
@@ -19,17 +20,18 @@ import {MatMenuModule} from "@angular/material/menu";
     TutoringComponent,
     NewPostPopupDialogComponent
   ],
-  imports: [
-    CommonModule,
-    TutoringRoutingModule,
-    MatButtonModule,
-    MatCardModule,
-    MatDialogModule,
-    MatInputModule,
-    ReactiveFormsModule,
-    MatTooltipModule,
-    MatButtonToggleModule,
-    MatMenuModule
-  ]
+    imports: [
+        CommonModule,
+        TutoringRoutingModule,
+        MatButtonModule,
+        MatCardModule,
+        MatDialogModule,
+        MatInputModule,
+        ReactiveFormsModule,
+        MatTooltipModule,
+        MatButtonToggleModule,
+        MatMenuModule,
+        MatProgressSpinnerModule
+    ]
 })
 export class TutoringModule { }

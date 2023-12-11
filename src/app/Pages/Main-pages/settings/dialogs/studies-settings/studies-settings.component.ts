@@ -26,8 +26,8 @@ export class StudiesSettingsComponent implements OnInit{
   firstName!: String;
   semester!: String;
   major!: String;
-  friends!: User[];
-  subjects!: Subject[];
+  friends!: string[];
+  subjects!: string[];
   badges!: String[];
 
   constructor(private userService: UserService, private authService: AuthenticationService) {
@@ -63,8 +63,8 @@ export class StudiesSettingsComponent implements OnInit{
       email: '',
       major: major as string,
       semester: semester as string,
-      friends: this.friends as User[],
-      subjects: this.subjects as Subject[],
+      friends: this.friends,
+      subjects: this.subjects,
       badges: this.badges as string[],
       name: {
         firstName: this.firstName as string,

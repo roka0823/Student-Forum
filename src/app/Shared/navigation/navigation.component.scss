@@ -5,6 +5,7 @@
 .sidenav {
   width: 106px;
   background-color: #DDDDDD;
+  height: 100%;
 }
 
 
@@ -74,7 +75,7 @@ a{
   left: 50%;
   transform: translate(-50%, -50%);
   width: 70%;
-  height: 70%;
+  height: 80%;
 }
 
 mat-card {

@@ -1,22 +1,14 @@
-<div class="homepage">
+<div class="homepage" *ngIf="user && posts">
   <div class="welcome-section">
-    <h1>Üdvözöllek újra itt {{ lastName }} {{ firstName }}!</h1>
+    <h1>Üdvözöllek újra itt {{ user.name.lastName }} {{ user.name.firstName }}</h1>
     <p>Nézd meg mikről maradhattál le mostanában:</p>
   </div>
   <div class="what-happened-section">
     <h2>Ezek történtek:</h2>
     <ul>
-      <li>
-        <h3>May 1, 2023</h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis faucibus turpis in odio finibus, at dictum mauris malesuada.</p>
-      </li>
-      <li>
-        <h3>April 15, 2023</h3>
-        <p>Curabitur ut eros vel erat lacinia vestibulum eget ac purus. Sed a ligula at nulla dignissim porttitor.</p>
-      </li>
-      <li>
-        <h3>April 3, 2023</h3>
-        <p>Suspendisse a magna ut libero rhoncus interdum. Sed nec neque id elit bibendum malesuada.</p>
+      <li *ngFor="let post of posts">
+        <h3>{{ post.time.toDate() | date:'yyyy/MM/dd HH:mm' }}</h3>
+        <p>{{ post.authorFirstName }} {{ post.authorLastName }} új posztot tett közzé a(z) {{ post.subject }} csoportban: {{ post.title }}</p>
       </li>
     </ul>
   </div>

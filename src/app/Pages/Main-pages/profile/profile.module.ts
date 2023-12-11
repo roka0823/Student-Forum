@@ -5,6 +5,8 @@ import { ProfileRoutingModule } from './profile-routing.module';
 import { ProfileComponent } from './profile.component';
 import {MatCardModule} from "@angular/material/card";
 import {MatButtonModule} from "@angular/material/button";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {MatIconModule} from "@angular/material/icon";
 
 
 @NgModule({
@@ -15,7 +17,9 @@ import {MatButtonModule} from "@angular/material/button";
         CommonModule,
         ProfileRoutingModule,
         MatCardModule,
-        MatButtonModule
+        MatButtonModule,
+        MatProgressSpinnerModule,
+        MatIconModule
     ]
 })
 export class ProfileModule { }

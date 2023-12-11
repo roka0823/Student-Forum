@@ -11,6 +11,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { NewPostComponent } from './new-post/new-post.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatTooltipModule} from "@angular/material/tooltip";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import {MatTooltipModule} from "@angular/material/tooltip";
         FormsModule,
         MatDialogModule,
         ReactiveFormsModule,
-        MatTooltipModule
+        MatTooltipModule,
+        MatProgressSpinnerModule
     ]
 })
 export class SelectedSubjectModule { }

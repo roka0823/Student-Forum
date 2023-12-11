@@ -1,34 +1,46 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
-import {map, Observable, Subscription} from "rxjs";
 import {User} from "../../../Shared/Models/User";
 import {UserService} from "../../../Shared/Services/User-services/user.service";
+import {PostsService} from "../../../Shared/Services/Posts-service/posts.service";
+import {Post} from "../../../Shared/Models/Post";
 
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss']
 })
-export class MainComponent implements OnInit, OnDestroy {
+export class MainComponent implements OnInit {
+  public user!: User;
+  public posts: Post[] = [];
 
-  object: Observable<Array<User>>
-  lastName!: string;
-  firstName!: string;
-  private subscription: Subscription | null = null;
-
-  constructor(private userService: UserService) {
-    this.object = this.userService.loadUser();
-  }
+  constructor(private userService: UserService,
+              private postService: PostsService) {}
 
   ngOnInit(): void {
-    this.subscription = this.object.pipe(
-      map(users => users[0])
-    ).subscribe(user => {
-      this.lastName = user.name.lastName;
-      this.firstName = user.name.firstName;
+    this.loadUser();
+    this.getNews();
+  }
+
+  loadUser() {
+    this.userService.loadUser().subscribe( user => {
+      this.user = user[0];
     });
   }
 
-  ngOnDestroy(): void {
-    this.subscription?.unsubscribe();
+  getNews() {
+    this.postService.getPosts().subscribe(posts => {
+      this.posts = posts;
+
+      // Assuming this.user.subjects is an array of subjects for the current user
+      if (this.user && this.user.subjects) {
+        this.posts = this.posts.filter(post => this.user.subjects.includes(post.subject));
+      }
+
+      this.posts.sort((a, b) => (b.time.toDate() as any) - (a.time.toDate() as any));
+    });
+  }
+
+  logPost() {
+    console.log(this.posts);
   }
 }

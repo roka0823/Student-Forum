@@ -1,11 +1,10 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {map, Observable, Subscription} from "rxjs";
+import {forkJoin, map, Observable, Subscription} from "rxjs";
 import {User} from "../../../Shared/Models/User";
 import {UserService} from "../../../Shared/Services/User-services/user.service";
-import {user} from "@angular/fire/auth";
-import {object} from "@angular/fire/database";
 import {Router} from "@angular/router";
-import {Subject} from "../../../Shared/Models/Subject";
+import {SubjectService} from "../../../Shared/Services/Subject-services/subject.service";
+import {StudentService} from "../../../Shared/Services/Student-services/student.service";
 
 
 @Component({
@@ -18,22 +17,27 @@ export class ProfileComponent implements OnInit, OnDestroy{
   private subscription: Subscription | null = null;
   user!: User;
   object: Observable<Array<User>>
-  lastName!: String;
-  firstName!: String;
-  semester!: String;
-  major!: String;
-  friends!: User[];
-  subjects!: Subject[];
-  badges!: String[];
+  lastName!: string;
+  firstName!: string;
+  semester!: string;
+  major!: string;
+  friends!: string[];
+  subjects!: string[];
+  badges!: string[];
   isHovered = false;
-  constructor(private userService: UserService, private router: Router) {
+  loading = true;
+
+  mySubjects: string[] = [];
+  myFriends: User[] = [];
+  constructor(private userService: UserService,
+              private router: Router,
+              private subjectService: SubjectService,
+              private studentService: StudentService) {
     this.object = this.userService.loadUser()
   }
 
   ngOnInit(): void {
-    this.subscription = this.object.pipe(
-      map(users => users[0])
-    ).subscribe(user => {
+    this.subscription = this.object.pipe(map((users) => users[0])).subscribe((user) => {
       this.user = user;
       this.lastName = user.name.lastName;
       this.firstName = user.name.firstName;
@@ -42,6 +46,13 @@ export class ProfileComponent implements OnInit, OnDestroy{
       this.friends = user.friends;
       this.subjects = user.subjects;
       this.badges = user.badges;
+
+      const subjectPromises = this.user.subjects.map((subject) => this.getSubjectName(subject));
+      const friendPromises = this.user.friends.map((friend) => this.getStudent(friend));
+
+      forkJoin([...subjectPromises, ...friendPromises]).subscribe(() => {
+        this.loading = false;
+      });
     });
   }
 
@@ -49,12 +60,21 @@ export class ProfileComponent implements OnInit, OnDestroy{
     this.subscription?.unsubscribe();
   }
 
-
   goToProfile(user: User) {
     this.router.navigateByUrl(`/students/${user.id}`);
   }
 
-  goToSubjectPage(subject: Subject) {
-    this.router.navigateByUrl(`/subjects/${subject.name}`);
+  goToSubjectPage(subject: string) {
+    this.router.navigateByUrl(`/subjects/${subject}`);
+  }
+
+  async getStudent(studentId: string): Promise<void> {
+    let student = await this.studentService.getStudentById(studentId);
+    this.myFriends.push(student);
+  }
+
+  async getSubjectName(subjectId: string): Promise<void> {
+    let subject = await this.subjectService.getSubjectNameById(subjectId);
+    this.mySubjects.push(subject.name);
   }
 }

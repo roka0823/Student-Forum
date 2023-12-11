@@ -12,7 +12,7 @@ export class TutoringService {
   constructor(private afs: AngularFirestore) { }
 
   createPost(tutoringPost: TutoringPost) {
-    return this.afs.collection<TutoringPost>(this.collectionName).add(tutoringPost);
+    return this.afs.collection<TutoringPost>(this.collectionName).doc(tutoringPost.id).set(tutoringPost);
   }
 
   getAllPosts() {
@@ -24,6 +24,7 @@ export class TutoringService {
   }
 
   deletePost(post: TutoringPost) {
+    console.log(post)
     const documentRef = this.afs.collection<TutoringPost>(this.collectionName).doc(post.id);
     return documentRef.delete();
   }

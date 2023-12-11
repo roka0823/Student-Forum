@@ -7,6 +7,7 @@ import {MatCardModule} from "@angular/material/card";
 import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
 import {MatTooltipModule} from "@angular/material/tooltip";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import {MatTooltipModule} from "@angular/material/tooltip";
         MatCardModule,
         MatIconModule,
         MatButtonModule,
-        MatTooltipModule
+        MatTooltipModule,
+        MatProgressSpinnerModule
     ]
 })
 export class StudentsModule { }

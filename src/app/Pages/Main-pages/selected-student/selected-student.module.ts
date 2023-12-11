@@ -5,6 +5,7 @@ import { SelectedStudentRoutingModule } from './selected-student-routing.module'
 import { SelectedStudentComponent } from './selected-student.component';
 import {MatCardModule} from "@angular/material/card";
 import {MatButtonModule} from "@angular/material/button";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 
 
@@ -12,11 +13,12 @@ import {MatButtonModule} from "@angular/material/button";
   declarations: [
     SelectedStudentComponent
   ],
-  imports: [
-    CommonModule,
-    SelectedStudentRoutingModule,
-    MatCardModule,
-    MatButtonModule
-  ]
+    imports: [
+        CommonModule,
+        SelectedStudentRoutingModule,
+        MatCardModule,
+        MatButtonModule,
+        MatProgressSpinnerModule
+    ]
 })
 export class SelectedStudentModule { }

@@ -1,15 +1,13 @@
-import {User} from "./User";
 import firebase from "firebase/compat";
-import {Comment} from "./Comment";
 
 export interface Post {
   title: string;
   description: string;
-  comments: Comment[];
-  author: User;
+  comments: string[];
+  author: string;
+  authorLastName: string;
+  authorFirstName: string;
   time: firebase.firestore.Timestamp;
-
-  id?: string;
-
-
+  subject: string;
+  id: string;
 }

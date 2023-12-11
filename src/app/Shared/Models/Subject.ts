@@ -1,11 +1,9 @@
-import {Post} from "./Post";
-
 export interface Subject {
 
   id?: string;
   name: string;
   joinedUsers: number;
-  posts: Post[];
+  posts: string[];
   recommended: string;
   mandatory: string;
 

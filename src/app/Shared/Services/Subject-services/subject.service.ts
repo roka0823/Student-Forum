@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 import {AngularFirestore} from "@angular/fire/compat/firestore";
-import {AuthenticationService} from "../Authentication/authentication.service";
-import {UserService} from "../User-services/user.service";
 import {Subject} from "../../Models/Subject";
 import {Post} from "../../Models/Post";
-import {Comment} from "../../Models/Comment";
 import {User} from "../../Models/User";
+import {doc, getDoc, getFirestore} from "@angular/fire/firestore";
+import {catchError, from, map, Observable, throwError} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -16,24 +15,49 @@ export class SubjectService {
   collectionNamePost = 'Posts'
   collectionNameComment = 'Comments'
 
-  constructor(private afs: AngularFirestore, private authService: AuthenticationService, private userService: UserService) { }
+  constructor(private afs: AngularFirestore) {
+  }
 
   getAllSubjects() {
     return this.afs.collection<Subject>(this.collectionNameSubject).valueChanges();
   }
 
-  loadSubject(subjectName: string) {
-    return this.afs.collection<Subject>(this.collectionNameSubject, ref => ref.where('name', '==', subjectName)).valueChanges({ limit: 1 });
+  loadSubject(subjectName: string): Observable<string | null> {
+    return this.afs
+      .collection<Subject>(this.collectionNameSubject, ref => ref.where('name', '==', subjectName))
+      .snapshotChanges()
+      .pipe(
+        map(actions => {
+          return actions.map(a => {
+            const id = a.payload.doc.id;
+            const data = a.payload.doc.data() as Subject;
+            return { id, ...data };
+          });
+        }),
+        map(dataArray => {
+          const firstData = dataArray.length > 0 ? dataArray[0] : null;
+          return firstData ? firstData.id : null;
+        })
+      );
   }
+
+
 
   createPost(post: Post) {
-    return this.afs.collection<Post>(this.collectionNamePost).add(post);
+    console.log('POSZT KREÁLÓDOTT!')
+    return this.afs.collection<Post>(this.collectionNamePost).doc(post.id).set(post);
   }
 
-  getPost(postID: string) {
-    return this.afs.collection<Post>(this.collectionNamePost, ref => ref.where('id', '==', postID)).valueChanges();
+  updatePost(post: Post) {
+    return this.afs.collection<User>(this.collectionNamePost).doc(post.id).update(post);
   }
 
+  getSubjectNameById(subjectId: string): Promise<any> {
+    const docRef = doc(getFirestore(), this.collectionNameSubject, subjectId);
+    return getDoc(docRef).then(doc => {
+      return doc.data();
+    });
+  }
 
   updateSubject(subject: Subject) {
     const query = this.afs.collection<Subject>(this.collectionNameSubject, ref => ref.where('name', '==', subject.name));
@@ -47,13 +71,11 @@ export class SubjectService {
     });
   }
 
-
-
-
-
-
-
-
-
+  getPostsFromId(postId: string): Promise<any> {
+    const docRef = doc(getFirestore(), this.collectionNameSubject, postId);
+    return getDoc(docRef).then(doc => {
+      return doc.data();
+    });
+  }
 
 }

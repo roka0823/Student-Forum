@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AuthenticationService} from "../../../Shared/Services/Authentication/authentication.service";
-import {FormControl} from "@angular/forms";
-import {Observable, Subscription} from "rxjs";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {Subscription} from "rxjs";
 import {Router} from "@angular/router";
 
 @Component({
@@ -9,32 +9,30 @@ import {Router} from "@angular/router";
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit, OnDestroy{
-  email = new FormControl('');
-  password = new FormControl('');
+export class LoginComponent{
   loadingSubscription?: Subscription;
-
   loading: boolean = false;
 
-  constructor(private router: Router, private authService: AuthenticationService ) {
+  constructor(private router: Router, private authService: AuthenticationService) {
   }
 
-  ngOnInit(): void {
-  }
+  loginForm = new FormGroup({
+    email: new FormControl('', [Validators.required, Validators.email]),
+    password:  new FormControl('', Validators.required),
+  });
 
   login() {
+    const email = this.loginForm.get('email')?.value;
+    const password = this.loginForm.get('password')?.value;
     this.loading = true;
-    const email = this.email.value || '';
-    const password = this.password.value || '';
-    this.authService.login(email, password).then(cred => {
-      console.log(cred);
-      this.router.navigateByUrl('/main');
-    }).catch(error => {
-    });
-  }
-
-
-  ngOnDestroy() {
-    this.loadingSubscription?.unsubscribe();
+    if (email && password) {
+      this.authService.login(email, password).then(cred => {
+        console.log(cred.user?.uid);
+      }).catch(error => {
+        console.log(error);
+      }).finally(() => {
+        this.router.navigateByUrl('/main');
+      })
+    }
   }
 }

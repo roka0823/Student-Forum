@@ -1,8 +1,8 @@
-import {User} from "./User";
 import firebase from "firebase/compat/app";
 
 export interface Comment {
+  id: string;
   text: string;
-  author: User;
+  author: string;
   time: firebase.firestore.Timestamp;
 }

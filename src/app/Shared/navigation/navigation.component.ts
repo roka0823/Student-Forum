@@ -40,7 +40,11 @@ export class NavigationComponent implements OnInit {
         titleName = "Személyek";
         break;
       case 'subjects':
-        titleName = "Tantárgyak";
+        if (segments[2]) {
+          titleName = "Tantárgyak | " + (decodeURIComponent(segments[2]));
+        } else {
+          titleName = "Tantárgyak";
+        }
         break;
       case 'tutoring':
         titleName = "Korrepetálás";
@@ -60,7 +64,6 @@ export class NavigationComponent implements OnInit {
 
   ngOnInit(): void {
     this.authService.isUserLoggedIn().subscribe(user => {
-      console.log(user);
       this.loggedInUser = user;
     }, error => {
       console.error(error);

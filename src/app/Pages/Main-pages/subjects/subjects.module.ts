@@ -6,6 +6,7 @@ import { SubjectsComponent } from './subjects.component';
 import {MatCardModule} from "@angular/material/card";
 import {MatButtonModule} from "@angular/material/button";
 import {MatTooltipModule} from "@angular/material/tooltip";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import {MatTooltipModule} from "@angular/material/tooltip";
         SubjectsRoutingModule,
         MatCardModule,
         MatButtonModule,
-        MatTooltipModule
+        MatTooltipModule,
+        MatProgressSpinnerModule
     ]
 })
 export class SubjectsModule { }

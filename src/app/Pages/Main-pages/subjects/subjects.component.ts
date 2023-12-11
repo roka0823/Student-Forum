@@ -17,12 +17,14 @@ export class SubjectsComponent implements OnInit, OnDestroy {
   private userSubscription: Subscription | null = null;
   loggedInUser!: User;
   object: Observable<Array<User>>
+  loading = false;
 
   constructor(private router: Router, private subjectService: SubjectService, private userService: UserService) {
     this.object = this.userService.loadUser()
   }
 
   ngOnInit(): void {
+    this.loading = true;
     this.subjectService.getAllSubjects().subscribe(subjects => {
       this.subjects = subjects;
     });
@@ -37,6 +39,7 @@ export class SubjectsComponent implements OnInit, OnDestroy {
       this.loggedInUser.friends = user.friends;
       this.loggedInUser.subjects = user.subjects;
       this.loggedInUser.badges = user.badges;
+      this.loading = false;
     });
   }
 
@@ -49,27 +52,32 @@ export class SubjectsComponent implements OnInit, OnDestroy {
     }
   }
 
-
-  joinSubjectForum(newSubject: Subject) {
-    if (this.loggedInUser.subjects.some(subject => subject.name === newSubject.name)) {
+  async joinSubjectForum(newSubject: Subject) {
+    if (this.loggedInUser.subjects.some((subject) => subject === newSubject.name)) {
       window.alert(`${newSubject.name} is already your subject.`);
     } else {
-      this.loggedInUser.subjects.push(newSubject);
-      this.userService.update(this.loggedInUser)
-        .then(() => {
-          window.alert(`${newSubject.name} has been added to your subjects.`);
-        })
-        .catch(error => {
-          console.error('Error updating user document:', error);
+      if (this.loggedInUser.subjects && newSubject.id) {
+        this.loggedInUser.subjects.push(newSubject.id);
+      }
+      try {
+        await this.userService.update(this.loggedInUser)
+          .then(() => {
+            window.alert(`${newSubject.name} has been added to your subjects.`);
+          })
+          .catch(error => {
+            console.error('Error updating user document:', error);
+          });
+        console.log(newSubject.name + ' ' + newSubject.joinedUsers)
+        newSubject.joinedUsers++;
+        console.log(newSubject.name + ' ' + newSubject.joinedUsers)
+        this.subjectService.updateSubject(newSubject).then(() => {
+          console.log('updated');
+        }).catch(error => {
+          console.log(error);
         });
-      console.log(newSubject.name + ' ' + newSubject.joinedUsers)
-      newSubject.joinedUsers++;
-      console.log(newSubject.name + ' ' + newSubject.joinedUsers)
-      this.subjectService.updateSubject(newSubject).then(() => {
-        console.log('updated');
-      }).catch(error => {
-        console.log(error);
-      });
+      } catch (error) {
+        console.error('Error updating user document:', error);
+      }
     }
   }
 
@@ -78,7 +86,7 @@ export class SubjectsComponent implements OnInit, OnDestroy {
   }
 
   isUserJoinedSubject(newSubject: Subject): boolean {
-    if (this.loggedInUser && this.loggedInUser.subjects && this.loggedInUser.subjects.some(subject => subject.name === newSubject.name)) {
+    if (this.loggedInUser && this.loggedInUser.subjects && this.loggedInUser.subjects.some(subject => subject === newSubject.id)) {
       return true;
     } else {
       return false
@@ -86,7 +94,7 @@ export class SubjectsComponent implements OnInit, OnDestroy {
   }
 
   deleteSubjectForum(newSubject: Subject) {
-    const filteredSubjects = this.loggedInUser.subjects.filter(subject => subject.name !== newSubject.name);
+    const filteredSubjects = this.loggedInUser.subjects.filter(subject => subject !== newSubject.id);
 
     if (filteredSubjects.length < this.loggedInUser.subjects.length) {
       this.loggedInUser.subjects = filteredSubjects;

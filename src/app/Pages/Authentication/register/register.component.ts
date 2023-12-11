@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {AuthenticationService} from "../../../Shared/Services/Authentication/authentication.service";
-import {FormControl, FormGroup} from "@angular/forms";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {UserService} from "../../../Shared/Services/User-services/user.service";
 import {User} from "../../../Shared/Models/User";
 import {Router} from "@angular/router";
@@ -13,15 +13,15 @@ import {Router} from "@angular/router";
 export class RegisterComponent {
   felev: any;
   registerForm = new FormGroup({
-    email: new FormControl(''),
-    password: new FormControl(''),
+    email: new FormControl('', [Validators.required, Validators.email]),
+    password: new FormControl('', Validators.required),
     name: new FormGroup({
-      firstName: new FormControl(''),
-      lastName: new FormControl(''),
+      firstName: new FormControl('', Validators.required),
+      lastName: new FormControl('', Validators.required),
     }),
     rePassword: new FormControl(''),
-    major: new FormControl(''),
-    semester: new FormControl(''),
+    major: new FormControl('', Validators.required),
+    semester: new FormControl('', Validators.required),
   });
 
   constructor(private auth: AuthenticationService,

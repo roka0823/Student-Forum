@@ -17,18 +17,20 @@ export class SelectedStudentComponent implements OnInit{
   firstName: string | null = null;
   lastName: string | null = null;
   major: string | null = null;
-  subjects: Subject[] | null = null;
-  friends: User[] | null = null;
+  subjects: string[] | null = null;
+  friends: string[] | null = null;
   badges: string[] | null = null;
   semester: string | null = null;
+  loading = false;
     constructor(private router: ActivatedRoute, private userService: UserService) {}
 
   ngOnInit(): void {
-    const studentId = this.router.snapshot.paramMap.get('id');
-    console.log(studentId)
-    if (studentId !== null) {
-      this.userService.getUserById(studentId).subscribe(student => {
-        if (student) {
+      this.loading = true;
+      const studentId = this.router.snapshot.paramMap.get('id');
+      console.log(studentId)
+      if (studentId !== null) {
+        this.userService.getUserById(studentId).subscribe(student => {
+          if (student) {
           console.log(student)
           this.student = student;
           this.subjects = student.subjects;
@@ -38,10 +40,9 @@ export class SelectedStudentComponent implements OnInit{
           this.lastName = student.name.lastName;
           this.major = student.major;
           this.semester = student.semester;
+          this.loading = false;
         }
       })
-      } else {
-      console.log('Hát ez null volt bazszki')
-    }
+      }
   }
 }

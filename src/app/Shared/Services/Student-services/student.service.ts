@@ -1,19 +1,21 @@
 import { Injectable } from '@angular/core';
-import {map, Observable} from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import {User} from "../../Models/User";
+import {doc, getDoc, getFirestore} from "@angular/fire/firestore";
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class StudentService {
-  private studentsUrl = 'api/students';
+  collectionName = 'Users'
 
-  constructor(private http: HttpClient) { }
+  constructor() { }
 
-  getStudentById(id: string): Observable<User> {
-    const url = `${this.studentsUrl}/${id}`;
-    return this.http.get<User>(url);
+  getStudentById(studentId: string): Promise<any> {
+    const docRef = doc(getFirestore(), this.collectionName, studentId);
+    return getDoc(docRef).then(doc => {
+      console.log(doc.data())
+      return doc.data();
+    });
   }
 }

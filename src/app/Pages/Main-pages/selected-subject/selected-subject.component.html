@@ -2,13 +2,12 @@
   <button mat-stroked-button (click)="onOpenDialog()"
           matTooltip="Új poszt írása">Új poszt</button>
 </div>
-<div *ngFor="let subject of subjects">
-  <div *ngFor="let post of subject.posts" class="post-container">
+  <div *ngFor="let post of posts" class="post-container">
     <mat-card class="post-card">
       <mat-card-content>
         <div class="header">
           <b class="title">{{ post.title }}</b>
-          <p class="author">{{ post.author.name.lastName }} {{ post.author.name.firstName }}
+          <p class="author">{{ post.authorFirstName }} {{ post.authorLastName }}
             : {{ post.time.toDate() | date:'yyyy/MM/dd'  }}</p>
         </div>
         <div class="description">
@@ -29,11 +28,12 @@
             </div>
           </div>
         </form>
-        <div class="comment-section-container" *ngFor="let comment of post.comments">
+        <ng-container *ngFor="let comment of comments">
+        <div class="comment-section-container" *ngIf="commentPostPair(comment.id, post.id)">
           <mat-card class="com-card">
             <mat-card-content>
               <div class="com-meta">
-                <p class="com-author">{{ comment.author.name.lastName }} {{ comment.author.name.firstName }}</p>
+                <p class="com-author">{{ comment.author }}</p>
                 <p class="com-time">{{ comment.time.toDate() | date:'yyyy/MM/dd' }}</p>
               </div>
               <div class="com-header">
@@ -42,7 +42,11 @@
             </mat-card-content>
           </mat-card>
         </div>
+        </ng-container>
       </mat-card-content>
     </mat-card>
   </div>
+
+<div *ngIf="loading" class="d-flex align-items-center justify-content-center h-100 w-100">
+  <mat-spinner></mat-spinner>
 </div>

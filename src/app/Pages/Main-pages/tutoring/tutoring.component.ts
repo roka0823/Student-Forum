@@ -11,6 +11,13 @@ import {AuthenticationService} from "../../../Shared/Services/Authentication/aut
 import firebase from "firebase/compat/app";
 import {Subscription, take} from "rxjs";
 import { v4 as uuidv4 } from 'uuid';
+import * as stream from "stream";
+
+
+interface name {
+  firstName: string,
+  lastName: string,
+}
 
 @Component({
   selector: 'app-tutoring',
@@ -20,11 +27,12 @@ import { v4 as uuidv4 } from 'uuid';
 export class TutoringComponent implements OnInit, OnDestroy {
 
   menu: number = 1;
-  private userSubscription: Subscription | null = null;
-  private dialogSubscription: Subscription | null = null;
+  loading = false;
   tutoringPosts: TutoringPost[] = [];
   users: User[] = [];
-
+  private userSubscription: Subscription | null = null;
+  private dialogSubscription: Subscription | null = null;
+  private tutoringPostsSubscription!: Subscription;
   constructor(
     private newPostDialog: MatDialog,
     private userService: UserService,
@@ -35,49 +43,71 @@ export class TutoringComponent implements OnInit, OnDestroy {
   ) {
   }
 
+  ngOnInit(): void {
+    this.loading = true;
+    this.tutoringPostsSubscription = this.tutorService.getAllPosts().subscribe(tutoringPosts => {
+      console.log('Történt egy subscribe:)')
+      this.tutoringPosts = tutoringPosts.sort((a, b) => b.time.toMillis() - a.time.toMillis());
+      this.cdRef.detectChanges();
+    });
+    this.userService.getAllUsers().pipe(take(1)).subscribe((users) => {
+      this.users = users;
+      this.cdRef.detectChanges();
+      this.loading = false;
+    });
+  }
 
   onOpenDialog() {
     const dialogRef = this.newPostDialog.open(NewPostPopupDialogComponent, {
       width: '70%',
       height: '90%',
-      data: {newPostDialog: this.newPostDialog}
+      data: { newPostDialog: this.newPostDialog }
     });
+
     this.dialogSubscription = dialogRef.afterClosed().subscribe(result => {
-      const wantP = result.want
-      const topicP = result.topic
-      const offerP = result.offer
-      const descriptionP = result.description
-      console.log('Dialog closed:', result);
+      if (!result) {
+        console.log('Dialog closed without saving');
+        return;
+      }
+
+      const wantP = result.want;
+      const topicP = result.topic;
+      const offerP = result.offer;
+      const descriptionP = result.description;
       const currentUserId = this.authService.getId();
+
       if (!currentUserId) {
         return;
       }
+
+      this.getName(currentUserId);
       this.userSubscription = this.userService.getUserById(currentUserId).subscribe((currentUser) => {
         if (!currentUser) {
-          console.log('currentUser is undefined')
+          console.log('currentUser is undefined');
           return;
         }
+
         const tutoringPost: TutoringPost = {
           id: uuidv4(),
           want: wantP,
           topic: topicP,
           offer: offerP,
           description: descriptionP as string,
-          author: currentUser,
+          author: currentUser.id,
           time: firebase.firestore.Timestamp.now(),
           active: false
         };
-        console.log(tutoringPost.id)
-        this.tutorService.createPost(tutoringPost).then((docRef) => {
-          console.log('Post added successfully with ID:', docRef.id);
-          tutoringPost.id = docRef.id; // set the id property after it has been created
-        }).catch(error => {
-          console.error(error);
-        })
+
+        this.tutorService.createPost(tutoringPost);
       });
     });
   }
 
+  getName(id: string) {
+    this.userService.getUserName(id).then( result => {
+      console.log(result);
+    })
+  }
 
   writeMassage() {
     const dialogRef = this.newPostDialog.open(MassageDialogComponent, {
@@ -96,6 +126,24 @@ export class TutoringComponent implements OnInit, OnDestroy {
     return this.users.find((user) => user.id === authorId);
   }
 
+  getAuthorLastName(authorId: string): string {
+    const author = this.getUser(authorId);
+    if (author) {
+      return author.name.lastName;
+    } else {
+      return "Unknown";
+    }
+  }
+
+  getAuthorFirstName(authorId: string): string {
+    const author = this.getUser(authorId);
+    if (author) {
+      return author.name.firstName;
+    } else {
+      return "Unknown";
+    }
+  }
+
   getAuthorName(authorId: string): string {
     const author = this.getUser(authorId);
     if (author) {
@@ -109,38 +157,23 @@ export class TutoringComponent implements OnInit, OnDestroy {
     return this.authService.getId();
   }
 
-  private tutoringPostsSubscription!: Subscription;
-
-  ngOnInit(): void {
-    this.tutoringPostsSubscription = this.tutorService.getAllPosts().subscribe(tutoringPosts => {
-      this.tutoringPosts = tutoringPosts.sort((a, b) => b.time.toMillis() - a.time.toMillis());
-      this.cdRef.detectChanges();
-    });
-    this.userService.getAllUsers().pipe(take(1)).subscribe((users) => {
-      this.users = users;
-      this.cdRef.detectChanges();
-    });
-  }
-
-
   ngOnDestroy(): void {
     if (this.tutoringPostsSubscription) {
       this.tutoringPostsSubscription.unsubscribe();
+      console.log('tutoringPostsSubscription = unsubscribed')
     }
     if (this.userSubscription) {
       this.userSubscription.unsubscribe();
+      console.log('userSubscription = unsubscribed')
     }
     if (this.dialogSubscription) {
       this.dialogSubscription.unsubscribe();
+      console.log('dialogSubscription = unsubscribed')
     }
   }
 
   deletePost(post: TutoringPost): void {
-    console.log(post)
-    this.tutorService.deletePost(post).then(() => {
-    }).catch(error => {
-      console.error(error);
-    });
+    this.tutorService.deletePost(post)
   }
 
   setMenu(value: number) {
