@@ -20,7 +20,7 @@
             </mat-form-field>
             <div class="button-container">
               <button mat-button class="add-button">
-                <mat-icon>add_circle</mat-icon>
+                <input type="file" (change)="onFileChange($event)" />
               </button>
               <button mat-button class="send-button" type="submit">
                 <mat-icon>send</mat-icon>
