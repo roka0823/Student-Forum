@@ -12,7 +12,6 @@ import {catchError, from, map, Observable, throwError} from "rxjs";
 export class SubjectService {
 
   collectionNameSubject = 'Subjects'
-  collectionNamePost = 'Posts'
   collectionNameComment = 'Comments'
 
   constructor(private afs: AngularFirestore) {
@@ -39,17 +38,6 @@ export class SubjectService {
           return firstData ? firstData.id : null;
         })
       );
-  }
-
-
-
-  createPost(post: Post) {
-    console.log('POSZT KREÁLÓDOTT!')
-    return this.afs.collection<Post>(this.collectionNamePost).doc(post.id).set(post);
-  }
-
-  updatePost(post: Post) {
-    return this.afs.collection<User>(this.collectionNamePost).doc(post.id).update(post);
   }
 
   getSubjectNameById(subjectId: string): Promise<any> {

@@ -10,4 +10,5 @@ export interface Post {
   time: firebase.firestore.Timestamp;
   subject: string;
   id: string;
+  fileUrl?: string;
 }

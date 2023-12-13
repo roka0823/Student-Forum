@@ -26,6 +26,7 @@ export class SelectedSubjectComponent implements OnInit, AfterViewInit, OnDestro
   posts: Post[] = [];
   comments: Comment[] = [];
   loading = false;
+  file: File | null = null;
   newCommentForm = new FormGroup({
     text: new FormControl(''),
     author: new FormControl(''),
@@ -98,7 +99,6 @@ export class SelectedSubjectComponent implements OnInit, AfterViewInit, OnDestro
     }
   }
 
-
   private async getComments(commentId: string, postId: string): Promise<void> {
     let comment = await this.commentService.getCommentById(commentId);
     this.postCommentMap.get(postId)!.push(commentId);
@@ -133,7 +133,7 @@ export class SelectedSubjectComponent implements OnInit, AfterViewInit, OnDestro
             subject: this.subject.id,
             comments: [],
           };
-          this.subjectService.createPost(forumPost);
+          this.postsService.createPost(forumPost);
           if (forumPost.id) {
             this.subject.posts.push(forumPost.id);
             this.subjectService.updateSubject(this.subject);
@@ -144,24 +144,60 @@ export class SelectedSubjectComponent implements OnInit, AfterViewInit, OnDestro
   }
 
   async submitComment(postId: string) {
-    let currentPost = await this.postsService.getPostById(postId)
+    console.log('Starting submitComment');
+    try {
+      let currentPost = await this.postsService.getPostById(postId);
+      console.log('Retrieved current post:', currentPost);
+
       this.userService.loadUser().subscribe((users: User[]) => {
+        console.log('Users loaded:', users);
+
         const currentUser = users[0];
         const newComment: Comment = {
           id: uuid.v4(),
           text: this.newCommentForm.get('text')!.value as string,
           author: currentUser.id,
-          time: firebase.firestore.Timestamp.now()
+          time: firebase.firestore.Timestamp.now(),
         };
-        console.log(currentPost)
-        if (newComment.id) {
-          console.log('Az Új comment', newComment)
-          currentPost.comments.push(newComment.id);
+
+        if (this.file) {
+          console.log('File is present:', this.file);
+          this.commentService.createCommentWithFile(newComment, this.file).then((fileUrl: string | void) => {
+            console.log('File URL:', fileUrl);
+            newComment.fileUrl = fileUrl as string;
+            console.log('Creating comment:', newComment);
+            this.commentService.createComment(newComment);
+            console.log('Updating current post:', currentPost);
+            currentPost.comments.push(newComment.id);
+            this.postsService.updatePost(currentPost);
+            console.log('Resetting form');
+            this.newCommentForm.reset();
+          }).catch(error => {
+            console.error('Error uploading file:', error);
+          });
+        } else {
+          console.log('No file. Creating comment:', newComment);
           this.commentService.createComment(newComment);
+          console.log('Updating current post:', currentPost);
+          currentPost.comments.push(newComment.id);
+          this.postsService.updatePost(currentPost);
+          console.log('Resetting form');
+          this.newCommentForm.reset();
         }
-        this.subjectService.updatePost(currentPost);
-        this.newCommentForm.reset();
       });
+    } catch (error) {
+      console.error('Error in submitComment:', error);
+    }
+  }
+
+
+
+  onFileChange(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    if (target.files && target.files.length) {
+      this.file = target.files[0];
+    }
+    console.log(this.file)
   }
 
   commentPostPair(commentId: string, postId: string): boolean {
