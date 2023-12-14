@@ -4,7 +4,7 @@ import {User} from "../../../../../Shared/Models/User";
 import {UserService} from "../../../../../Shared/Services/User-services/user.service";
 import {AuthenticationService} from "../../../../../Shared/Services/Authentication/authentication.service";
 import {FormControl, FormGroup} from "@angular/forms";
-import {Subject} from "../../../../../Shared/Models/Subject";
+import {Notification} from "../../../../../Shared/Models/Notification";
 
 @Component({
   selector: 'app-studies-settings',
@@ -20,15 +20,16 @@ export class StudiesSettingsComponent implements OnInit{
   });
 
   object: Observable<Array<User>>
-  email!: String;
-  nickName!: String;
-  lastName!: String;
-  firstName!: String;
-  semester!: String;
-  major!: String;
+  email!: string;
+  nickName!: string;
+  lastName!: string;
+  firstName!: string;
+  semester!: string;
+  major!: string;
   friends!: string[];
   subjects!: string[];
-  badges!: String[];
+  badges!: string[];
+  notifications!: Notification[];
 
   constructor(private userService: UserService, private authService: AuthenticationService) {
     this.object = this.userService.loadUser()
@@ -47,6 +48,7 @@ export class StudiesSettingsComponent implements OnInit{
       this.subjects = user.subjects;
       this.badges = user.badges;
       this.nickName = user.nickName;
+      this.notifications = user.notifications
     });
   }
 
@@ -71,6 +73,7 @@ export class StudiesSettingsComponent implements OnInit{
         lastName: this.lastName as string,
       },
       nickName: this.nickName as string,
+      notifications: this.notifications
     };
 
     // Call the update() method of the UserService to update the user in the database

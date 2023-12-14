@@ -3,6 +3,9 @@ import { CommonModule } from '@angular/common';
 
 import { NotificationsRoutingModule } from './notifications-routing.module';
 import { NotificationsComponent } from './notifications.component';
+import {MatCardModule} from "@angular/material/card";
+import {MatButtonModule} from "@angular/material/button";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 
 @NgModule({
@@ -11,7 +14,10 @@ import { NotificationsComponent } from './notifications.component';
   ],
   imports: [
     CommonModule,
-    NotificationsRoutingModule
+    NotificationsRoutingModule,
+    MatCardModule,
+    MatButtonModule,
+    MatProgressSpinnerModule
   ]
 })
 export class NotificationsModule { }

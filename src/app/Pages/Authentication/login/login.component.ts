@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {AuthenticationService} from "../../../Shared/Services/Authentication/authentication.service";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Subscription} from "rxjs";
@@ -26,10 +26,8 @@ export class LoginComponent{
     const password = this.loginForm.get('password')?.value;
     this.loading = true;
     if (email && password) {
-      this.authService.login(email, password).then(cred => {
-        console.log(cred.user?.uid);
-      }).catch(error => {
-        console.log(error);
+      this.authService.login(email, password).then(_ => {
+      }).catch(_ => {
       }).finally(() => {
         this.router.navigateByUrl('/main');
       })

@@ -16,7 +16,6 @@ export class NavigationComponent implements OnInit {
   }
 
   openSidenav: any;
-  urlParam: any;
 
   goBack() {
     this.location.back();
@@ -25,7 +24,7 @@ export class NavigationComponent implements OnInit {
   getPathName() {
     const pathname = window.location.pathname;
     const segments = pathname.split('/');
-    let titleName = '';
+    let titleName: string;
     switch (segments[1]) {
       case 'main':
         titleName = 'Főoldal';
@@ -72,11 +71,8 @@ export class NavigationComponent implements OnInit {
 
   logout() {
     this.authService.logout().then(() => {
-      console.log('Logged out successfully');
       this.router.navigateByUrl('/login');
-    }).catch(error => {
-      console.error()
-    });
+    })
   }
 
   onLogin() {

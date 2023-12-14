@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { doc, getDoc, getFirestore } from "@angular/fire/firestore";
-import { Subject } from "../../Models/Subject";
 import { AngularFirestore } from "@angular/fire/compat/firestore";
 import {Post} from "../../Models/Post";
 import {User} from "../../Models/User";
@@ -18,7 +17,6 @@ export class PostsService {
               private fileUploadService: FileUploadService) { }
 
   createPost(post: Post) {
-    console.log('POSZT KREÁLÓDOTT!')
     return this.afs.collection<Post>(this.collectionName).doc(post.id).set(post);
   }
 

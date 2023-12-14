@@ -1,4 +1,4 @@
-import {AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {SubjectService} from "../../../Shared/Services/Subject-services/subject.service";
 import {Subject} from "../../../Shared/Models/Subject";
 import {User} from "../../../Shared/Models/User";
@@ -11,20 +11,24 @@ import firebase from "firebase/compat/app";
 import {NewPostComponent} from "./new-post/new-post.component";
 import {FormControl, FormGroup} from "@angular/forms";
 import * as uuid from 'uuid';
+import {v4 as uuidv4} from 'uuid';
 import {Comment} from "../../../Shared/Models/Comment";
 import {PostsService} from "../../../Shared/Services/Posts-service/posts.service";
 import {CommentService} from "../../../Shared/Services/Comment-service/comment.service";
 import {Subscription} from "rxjs";
+import {Notification} from "../../../Shared/Models/Notification";
+import {NotificationService} from "../../../Shared/Services/Notification/notification.service";
 
 @Component({
   selector: 'app-selected-subject',
   templateUrl: './selected-subject.component.html',
   styleUrls: ['./selected-subject.component.scss']
 })
-export class SelectedSubjectComponent implements OnInit, AfterViewInit, OnDestroy{
+export class SelectedSubjectComponent implements OnInit,  OnDestroy{
   public subject!: Subject;
   posts: Post[] = [];
   comments: Comment[] = [];
+  users: User[] = [];
   loading = false;
   file: File | null = null;
   newCommentForm = new FormGroup({
@@ -34,8 +38,8 @@ export class SelectedSubjectComponent implements OnInit, AfterViewInit, OnDestro
   })
 
   postCommentMap = new Map<string, string[]>();
-
   subscription?: Subscription;
+  uploadedFileName?: string;
 
 
   constructor(
@@ -46,17 +50,15 @@ export class SelectedSubjectComponent implements OnInit, AfterViewInit, OnDestro
     private cdRef: ChangeDetectorRef,
     private subjectService: SubjectService,
     private postsService: PostsService,
-    public commentService: CommentService
+    private commentService: CommentService,
+    private notificationService: NotificationService
   ) {
   }
 
   ngOnInit(): void {
     this.loading = true;
     this.loadPosts();
-  }
-
-  ngAfterViewInit(): void {
-    console.log(this.postCommentMap);
+    this.loadUsers();
   }
 
   private loadPosts() {
@@ -69,15 +71,32 @@ export class SelectedSubjectComponent implements OnInit, AfterViewInit, OnDestro
     });
   }
 
+  loadUsers(): void {
+    this.userService.getAllUsers().subscribe( users => {
+      this.users = users;
+    })
+  }
+
+  getUser(commentAuthorId: string): User | undefined {
+    return this.users.find((user) => user.id === commentAuthorId);
+  }
+
+  getAuthorName(commentAuthorId: string): string {
+    const author = this.getUser(commentAuthorId);
+    if (author) {
+      return author.name.lastName + " " + author.name.firstName;
+    } else {
+      return "Unknown";
+    }
+  }
+
   private getSubjectName() {
     const urlParts = window.location.pathname.split('/');
-    const subjectName = decodeURI(urlParts[urlParts.length - 1]).replace('%20', ' ');
-    return subjectName;
+    return decodeURI(urlParts[urlParts.length - 1]).replace('%20', ' ');
   }
 
   private async getSubject(subjectId: string): Promise<void> {
-    let subject = await this.subjectService.getPostsFromId(subjectId);
-    this.subject = subject
+    this.subject = await this.subjectService.getPostsFromId(subjectId)
     this.posts = [];
     this.subject.posts.forEach( (post) => {
       this.getPosts(post);
@@ -143,53 +162,41 @@ export class SelectedSubjectComponent implements OnInit, AfterViewInit, OnDestro
     });
   }
 
-  async submitComment(postId: string) {
-    console.log('Starting submitComment');
-    try {
-      let currentPost = await this.postsService.getPostById(postId);
-      console.log('Retrieved current post:', currentPost);
+  async submitComment(post: Post) {
+    let currentPost = await this.postsService.getPostById(post.id);
+    this.userService.loadUser().subscribe((users: User[]) => {
+      const currentUser = users[0];
+      const newComment: Comment = {
+        id: uuid.v4(),
+        text: this.newCommentForm.get('text')!.value as string,
+        author: currentUser.id,
+        time: firebase.firestore.Timestamp.now(),
+        fileUrl: '',
+        fileName: ''
+      };
+      const notification = {
+        isSeen: false,
+        text: (currentUser.name.lastName + " " + currentUser.name.firstName + " Válaszolt a posztodra a " + this.subject.name + " szerveren!"),
+        id: uuidv4(),
+      } as Notification;
+      this.notificationService.createNotification(notification);
+      const author = this.userService.getUserById(post.author);
+      author.subscribe(author => {
+        author?.notifications.push(notification);
+        if (author) this.userService.update(author);
+      })
 
-      this.userService.loadUser().subscribe((users: User[]) => {
-        console.log('Users loaded:', users);
+      if (this.file) {
+        this.commentService.createCommentWithFile(newComment, this.file);
+      } else {
+        this.commentService.createComment(newComment);
+      }
 
-        const currentUser = users[0];
-        const newComment: Comment = {
-          id: uuid.v4(),
-          text: this.newCommentForm.get('text')!.value as string,
-          author: currentUser.id,
-          time: firebase.firestore.Timestamp.now(),
-        };
-
-        if (this.file) {
-          console.log('File is present:', this.file);
-          this.commentService.createCommentWithFile(newComment, this.file).then((fileUrl: string | void) => {
-            console.log('File URL:', fileUrl);
-            newComment.fileUrl = fileUrl as string;
-            console.log('Creating comment:', newComment);
-            this.commentService.createComment(newComment);
-            console.log('Updating current post:', currentPost);
-            currentPost.comments.push(newComment.id);
-            this.postsService.updatePost(currentPost);
-            console.log('Resetting form');
-            this.newCommentForm.reset();
-          }).catch(error => {
-            console.error('Error uploading file:', error);
-          });
-        } else {
-          console.log('No file. Creating comment:', newComment);
-          this.commentService.createComment(newComment);
-          console.log('Updating current post:', currentPost);
-          currentPost.comments.push(newComment.id);
-          this.postsService.updatePost(currentPost);
-          console.log('Resetting form');
-          this.newCommentForm.reset();
-        }
-      });
-    } catch (error) {
-      console.error('Error in submitComment:', error);
-    }
+      currentPost.comments.push(newComment.id);
+      this.postsService.updatePost(currentPost);
+      this.newCommentForm.reset();
+    });
   }
-
 
 
   onFileChange(event: Event): void {
@@ -197,7 +204,8 @@ export class SelectedSubjectComponent implements OnInit, AfterViewInit, OnDestro
     if (target.files && target.files.length) {
       this.file = target.files[0];
     }
-    console.log(this.file)
+    if (this.file)
+    this.uploadedFileName = this.file?.name;
   }
 
   commentPostPair(commentId: string, postId: string): boolean {
@@ -209,9 +217,14 @@ export class SelectedSubjectComponent implements OnInit, AfterViewInit, OnDestro
 
   ngOnDestroy(): void {
     this.subscription?.unsubscribe();
-    console.log("leiratkoztunk");
   }
 
 
+  isImageFile(fileName: string): boolean {
+    const imageExtensions = ['png', 'jpg', 'jpeg', 'gif', 'bmp']; // Add more if needed
+
+    const lowerCaseFileName = fileName.toLowerCase();
+    return imageExtensions.some(ext => lowerCaseFileName.endsWith(`.${ext}`));
+  }
 
 }

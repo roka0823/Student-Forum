@@ -11,7 +11,6 @@ import {Router} from "@angular/router";
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent {
-  felev: any;
   registerForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', Validators.required),
@@ -35,7 +34,6 @@ export class RegisterComponent {
 
     if (email && password) {
       this.auth.register(email, password).then(cred => {
-        console.log(cred);
         const user: User = {
           id: cred.user?.uid as string,
           email: this.registerForm.get('email')?.value as string,
@@ -48,10 +46,10 @@ export class RegisterComponent {
           semester: this.registerForm.get('semester')?.value as string,
           friends: [],
           subjects: [],
-          badges: ['Beta Tester']
+          badges: ['Beta Tester'],
+          notifications: []
         };
         this.userService.create(user).then(_ => {
-          console.log('User added successfully');
           this.router.navigateByUrl('/profile')
         }).catch(error => {
           console.error(error);

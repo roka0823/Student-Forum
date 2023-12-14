@@ -4,7 +4,7 @@ import {User} from "../../../../../Shared/Models/User";
 import {UserService} from "../../../../../Shared/Services/User-services/user.service";
 import {FormControl, FormGroup} from "@angular/forms";
 import {AuthenticationService} from "../../../../../Shared/Services/Authentication/authentication.service";
-import {Subject} from "../../../../../Shared/Models/Subject";
+import {Notification} from "../../../../../Shared/Models/Notification";
 
 @Component({
   selector: 'app-personal-settings',
@@ -33,6 +33,7 @@ export class PersonalSettingsComponent implements OnInit{
   subjects!: string[];
   badges!: string[];
   nickName!: string;
+  notifications!: Notification[];
 
   constructor(private userService: UserService, private authService: AuthenticationService) {
     this.object = this.userService.loadUser()
@@ -51,6 +52,7 @@ export class PersonalSettingsComponent implements OnInit{
       this.subjects = user.subjects;
       this.badges = user.badges;
       this.nickName = user.nickName;
+      this.notifications = user.notifications;
     });
   }
 
@@ -76,6 +78,7 @@ export class PersonalSettingsComponent implements OnInit{
         lastName: lastName as string,
       },
       nickName: nickName as string,
+      notifications: this.notifications
     };
 
     // Call the update() method of the UserService to update the user in the database

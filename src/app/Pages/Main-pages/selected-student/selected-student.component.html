@@ -1,62 +1,61 @@
-<div class="profile-img-and-text-container">
-  <div class="left">
-    <img src="assets/images/basic_avatar_man.jpg" class="profile-avatar" alt="profile picture">
+<div *ngIf="student && currentUser">
+  <div class="profile-img-and-text-container">
+    <div class="left">
+      <img src="assets/images/basic_avatar_man.jpg" class="profile-avatar" alt="profile picture">
+    </div>
+    <div class="right">
+      <h2 *ngIf="student.id !== currentUser.id; else currentUserEqual">{{ student.name.lastName }} {{ student.name.firstName }}</h2>
+      <ng-template #currentUserEqual><h2> {{ student.name.lastName }} {{ student.name.firstName }} (Én)</h2></ng-template>
+      <h3>{{ student.major }} szak</h3>
+      <h4>{{ student.semester }}. félév</h4>
+    </div>
   </div>
-  <div class="right">
-    <h2>{{ lastName }} {{ firstName }}</h2>
-    <h3>{{ major }} szak</h3>
-    <h4>{{ semester }}. félév</h4>
-  </div>
-</div>
 
-<div class="card-container">
-  <div class="card">
-    <mat-card>
-      <mat-card-content>
-        <div class="card-content-header">
-          <h3>Tantárgyak</h3>
-        </div>
-        <div class="card-content-body">
-          <!--
-          <div *ngFor="let subject of subjects">
-            <button mat-button><p>{{ subject.name }}</p></button>
+  <div class="card-container">
+    <div class="card">
+      <mat-card>
+        <mat-card-content>
+          <div class="card-content-header">
+            <h3>Tantárgyak</h3>
           </div>
-          -->
-        </div>
-      </mat-card-content>
-    </mat-card>
-  </div>
-  <div class="card">
-    <mat-card>
-      <mat-card-content>
-        <div class="card-content-header">
-          <h3>Ismerősök</h3>
-        </div>
-        <div class="card-content-body">
           <div class="card-content-body">
-            <!--
-            <div *ngFor="let friend of friends">
-              <button mat-button><p>{{ friend.name.lastName }} {{ friend.name.firstName }}</p></button>
+            <div *ngFor="let subject of student.subjects">
+              <button mat-button (click)="goToSubjectPage(subject)">{{ getSubjectName(subject) }}</button>
             </div>
-            -->
           </div>
-        </div>
-      </mat-card-content>
-    </mat-card>
-  </div>
-  <div class="card">
-    <mat-card>
-      <mat-card-content>
-        <div class="card-content-header">
-          <h3>Kitüntetések</h3>
-        </div>
-        <div class="card-content-body">
-          <div *ngFor="let badge of badges">
-            <button mat-button><p>{{ badge }}</p></button>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div class="card">
+      <mat-card>
+        <mat-card-content>
+          <div class="card-content-header">
+            <h3>Ismerősök</h3>
           </div>
-        </div>
-      </mat-card-content>
-    </mat-card>
+          <div class="card-content-body">
+            <div class="card-content-body">
+              <div *ngFor="let friend of student.friends">
+                <button mat-button (click)="goToProfile(friend)">{{ getFriendName(friend) }} </button>
+              </div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div class="card">
+      <mat-card>
+        <mat-card-content>
+          <div class="card-content-header">
+            <h3>Kitüntetések</h3>
+          </div>
+          <div class="card-content-body">
+            <div *ngFor="let badge of student.badges">
+              <button mat-button><p>{{ badge }}</p></button>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
   </div>
 </div>
 

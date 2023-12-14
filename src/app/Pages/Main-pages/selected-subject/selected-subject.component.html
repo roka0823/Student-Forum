@@ -1,51 +1,71 @@
 <div class="new-button">
   <button mat-stroked-button (click)="onOpenDialog()"
-          matTooltip="Új poszt írása">Új poszt</button>
+          matTooltip="Új poszt írása">Új poszt
+  </button>
 </div>
-  <div *ngFor="let post of posts" class="post-container">
-    <mat-card class="post-card">
-      <mat-card-content>
-        <div class="header">
-          <b class="title">{{ post.title }}</b>
-          <p class="author">{{ post.authorFirstName }} {{ post.authorLastName }}
-            : {{ post.time.toDate() | date:'yyyy/MM/dd'  }}</p>
-        </div>
-        <div class="description">
-          {{ post.description }}
-        </div>
-        <form [formGroup]="newCommentForm" (ngSubmit)="submitComment(post?.id!)">
-          <div class="comment-container">
-            <mat-form-field class="comment-field">
-              <textarea matInput placeholder="Write a comment" formControlName="text" required></textarea>
-            </mat-form-field>
-            <div class="button-container">
-              <button mat-button class="add-button">
-                <input type="file" (change)="onFileChange($event)" />
-              </button>
-              <button mat-button class="send-button" type="submit">
-                <mat-icon>send</mat-icon>
-              </button>
+<div *ngFor="let post of posts" class="post-container">
+  <mat-card class="post-card">
+    <mat-card-content>
+      <div class="header">
+        <b class="title">{{ post.title }}</b>
+        <p class="author">{{ post.authorLastName }} {{ post.authorFirstName }}
+          | {{ post.time.toDate() | date:'yyyy/MM/dd HH:mm'  }}</p>
+      </div>
+      <div class="description">
+        {{ post.description }}
+      </div>
+      <form [formGroup]="newCommentForm" (ngSubmit)="submitComment(post)">
+        <div class="comment-container">
+          <mat-form-field class="comment-field">
+            <textarea matInput placeholder="Write a comment" formControlName="text" required></textarea>
+            <div *ngIf="uploadedFileName" class="file-name-display">
+              Feltöltött fájl neve: {{ uploadedFileName }}
             </div>
+          </mat-form-field>
+          <div class="button-container">
+            <label for="file-upload" class="custom-file-upload">
+              <mat-icon>upload</mat-icon>
+            </label>
+            <input id="file-upload" type="file" (change)="onFileChange($event)"/>
+            <button mat-button class="send-button" type="submit">
+              <mat-icon>send</mat-icon>
+            </button>
           </div>
-        </form>
-        <ng-container *ngFor="let comment of comments">
+        </div>
+      </form>
+      <mat-divider [vertical]="true"></mat-divider>
+
+      <ng-container *ngFor="let comment of comments">
         <div class="comment-section-container" *ngIf="commentPostPair(comment.id, post.id)">
           <mat-card class="com-card">
             <mat-card-content>
               <div class="com-meta">
-                <p class="com-author">{{ comment.author }}</p>
-                <p class="com-time">{{ comment.time.toDate() | date:'yyyy/MM/dd' }}</p>
+                <p class="com-author">{{ getAuthorName(comment.author) }}</p>
+                <p class="com-time">{{ comment.time.toDate() | date:'yyyy/MM/dd HH:mm' }}</p>
               </div>
               <div class="com-header">
                 <p class="com-title">{{ comment.text }}</p>
               </div>
+              <div *ngIf="comment.fileUrl && comment.fileName && !isImageFile(comment.fileName)">
+                <a [href]="comment.fileUrl" download="yourFileName">{{ comment.fileName }}</a>
+              </div>
+              <div *ngIf="comment.fileName && isImageFile(comment.fileName)" class="hover-container">
+                <a [href]="comment.fileUrl" target="_blank">
+                  <img [src]="comment.fileUrl" alt="Uploaded Image" class="hover-img"/>
+                </a>
+                <div class="hover-overlay">
+                  <div class="hover-content">
+                    <mat-icon>download</mat-icon>
+                  </div>
+                </div>
+              </div>
             </mat-card-content>
           </mat-card>
         </div>
-        </ng-container>
-      </mat-card-content>
-    </mat-card>
-  </div>
+      </ng-container>
+    </mat-card-content>
+  </mat-card>
+</div>
 
 <div *ngIf="loading" class="d-flex align-items-center justify-content-center h-100 w-100">
   <mat-spinner></mat-spinner>

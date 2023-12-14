@@ -43,7 +43,7 @@
   </div>
   <div *ngIf="getMenu() == 2">
     <div class="car-container" *ngFor="let post of tutoringPosts">
-      <mat-card *ngIf="post.active">
+      <mat-card *ngIf="post.active && post.author === currentUserId || post.active && post?.acceptedUser === currentUserId">
         <mat-card-content>
           <div>
             <div>

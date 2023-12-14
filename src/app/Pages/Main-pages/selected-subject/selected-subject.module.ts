@@ -12,6 +12,7 @@ import { NewPostComponent } from './new-post/new-post.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {MatDividerModule} from "@angular/material/divider";
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
         MatDialogModule,
         ReactiveFormsModule,
         MatTooltipModule,
-        MatProgressSpinnerModule
+        MatProgressSpinnerModule,
+        MatDividerModule
     ]
 })
 export class SelectedSubjectModule { }

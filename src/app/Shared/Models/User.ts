@@ -1,4 +1,4 @@
-import {Subject} from "./Subject";
+import {Notification} from "./Notification";
 
 export interface User {
   id: string;
@@ -13,4 +13,5 @@ export interface User {
   friends: string[];
   subjects: string[];
   badges: string[];
+  notifications: Notification[];
 }

@@ -1,15 +1,25 @@
-.not-found {
-  background-color: #f5f5f5;
-  padding: 20px;
-  text-align: center;
+.subjects-card-container {
+  width: 100%;
 }
 
-.not-found h1 {
-  font-size: 48px;
-  margin-top: 0;
+.content {
+  display: flex;
+  align-items: center;
 }
 
-.not-found p {
-  font-size: 24px;
-  margin-bottom: 0;
+.left {
+  max-width: 70%;
+}
+
+.vertical-line {
+  height: 100%;
+  border-left: 1px solid #ccc; /* Adjust the color as needed */
+  margin: 0 10px; /* Adjust the margin as needed */
+}
+
+.right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end; /* Align buttons to the right */
+  margin-left: auto; /* Push buttons to the right */
 }

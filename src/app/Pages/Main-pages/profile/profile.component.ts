@@ -17,13 +17,6 @@ export class ProfileComponent implements OnInit, OnDestroy{
   private subscription: Subscription | null = null;
   user!: User;
   object: Observable<Array<User>>
-  lastName!: string;
-  firstName!: string;
-  semester!: string;
-  major!: string;
-  friends!: string[];
-  subjects!: string[];
-  badges!: string[];
   isHovered = false;
   loading = true;
 
@@ -39,13 +32,6 @@ export class ProfileComponent implements OnInit, OnDestroy{
   ngOnInit(): void {
     this.subscription = this.object.pipe(map((users) => users[0])).subscribe((user) => {
       this.user = user;
-      this.lastName = user.name.lastName;
-      this.firstName = user.name.firstName;
-      this.major = user.major;
-      this.semester = user.semester;
-      this.friends = user.friends;
-      this.subjects = user.subjects;
-      this.badges = user.badges;
 
       const subjectPromises = this.user.subjects.map((subject) => this.getSubjectName(subject));
       const friendPromises = this.user.friends.map((friend) => this.getStudent(friend));

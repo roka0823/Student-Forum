@@ -67,14 +67,9 @@ export class SubjectsComponent implements OnInit, OnDestroy {
           .catch(error => {
             console.error('Error updating user document:', error);
           });
-        console.log(newSubject.name + ' ' + newSubject.joinedUsers)
         newSubject.joinedUsers++;
-        console.log(newSubject.name + ' ' + newSubject.joinedUsers)
         this.subjectService.updateSubject(newSubject).then(() => {
-          console.log('updated');
-        }).catch(error => {
-          console.log(error);
-        });
+        })
       } catch (error) {
         console.error('Error updating user document:', error);
       }
@@ -86,11 +81,7 @@ export class SubjectsComponent implements OnInit, OnDestroy {
   }
 
   isUserJoinedSubject(newSubject: Subject): boolean {
-    if (this.loggedInUser && this.loggedInUser.subjects && this.loggedInUser.subjects.some(subject => subject === newSubject.id)) {
-      return true;
-    } else {
-      return false
-    }
+    return this.loggedInUser && this.loggedInUser.subjects && this.loggedInUser.subjects.some(subject => subject === newSubject.id);
   }
 
   deleteSubjectForum(newSubject: Subject) {
@@ -109,10 +100,7 @@ export class SubjectsComponent implements OnInit, OnDestroy {
 
       newSubject.joinedUsers--;
       this.subjectService.updateSubject(newSubject).then(() => {
-        console.log('updated');
-      }).catch(error => {
-        console.log(error);
-      });
+      })
     } else {
       window.alert(`${newSubject.name} már nem szerepel a tantárgyaid között.`);
     }

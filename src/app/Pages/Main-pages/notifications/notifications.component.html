@@ -1,4 +1,35 @@
-<div class="not-found">
-  <h1>Folyamatban...</h1>
-  <p>Ez az oldal fejlesztés alatt van. Nézz vissza később!</p>
+<div class="page-container" *ngIf="!loading">
+  <div class="subjects-card-container" *ngFor="let notification of usersNotifications">
+    <mat-card>
+      <mat-card-content>
+        <div class="row d-flex align-items-center">
+          <div class="col">
+            <h3>{{notification.text}}</h3>
+          </div>
+          <div class="col col-lg-1 p-0" *ngIf="!notification.isSeen">
+            <button mat-button (click)="notificationSeen(notification.id)">
+              <p>Rendben</p>
+            </button>
+          </div>
+          <div class="col col-lg-2 p-3">
+            <button mat-button (click)="deleteNotification(notification.id)">
+              <p>Törlés</p>
+            </button>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+<div *ngIf="!usersNotifications.length && !loading">
+  <div class="not-found">
+    <h2>Jelenleg nincs semmilyen értesítésed...</h2>
+    <p>Ha bármi történik egy szervereden vagy valaki ír neked azt itt fogod látni. Nézz vissza később!</p>
+  </div>
+
+</div>
+
+<div *ngIf="loading" class="d-flex align-items-center justify-content-center h-100 w-100">
+  <mat-spinner></mat-spinner>
 </div>

@@ -11,13 +11,8 @@ import {AuthenticationService} from "../../../Shared/Services/Authentication/aut
 import firebase from "firebase/compat/app";
 import {Subscription, take} from "rxjs";
 import { v4 as uuidv4 } from 'uuid';
-import * as stream from "stream";
-
-
-interface name {
-  firstName: string,
-  lastName: string,
-}
+import {NotificationService} from "../../../Shared/Services/Notification/notification.service";
+import {Notification} from "../../../Shared/Models/Notification";
 
 @Component({
   selector: 'app-tutoring',
@@ -39,14 +34,14 @@ export class TutoringComponent implements OnInit, OnDestroy {
     private router: Router,
     private tutorService: TutoringService,
     private authService: AuthenticationService,
-    private cdRef: ChangeDetectorRef
+    private cdRef: ChangeDetectorRef,
+    private notificationService: NotificationService
   ) {
   }
 
   ngOnInit(): void {
     this.loading = true;
     this.tutoringPostsSubscription = this.tutorService.getAllPosts().subscribe(tutoringPosts => {
-      console.log('Történt egy subscribe:)')
       this.tutoringPosts = tutoringPosts.sort((a, b) => b.time.toMillis() - a.time.toMillis());
       this.cdRef.detectChanges();
     });
@@ -66,7 +61,6 @@ export class TutoringComponent implements OnInit, OnDestroy {
 
     this.dialogSubscription = dialogRef.afterClosed().subscribe(result => {
       if (!result) {
-        console.log('Dialog closed without saving');
         return;
       }
 
@@ -83,7 +77,6 @@ export class TutoringComponent implements OnInit, OnDestroy {
       this.getName(currentUserId);
       this.userSubscription = this.userService.getUserById(currentUserId).subscribe((currentUser) => {
         if (!currentUser) {
-          console.log('currentUser is undefined');
           return;
         }
 
@@ -104,8 +97,7 @@ export class TutoringComponent implements OnInit, OnDestroy {
   }
 
   getName(id: string) {
-    this.userService.getUserName(id).then( result => {
-      console.log(result);
+    this.userService.getUserName(id).then( () => {
     })
   }
 
@@ -117,9 +109,20 @@ export class TutoringComponent implements OnInit, OnDestroy {
   }
 
   onStartTutoring(post: TutoringPost) {
-    post.active = false;
-    console.log(post.id)
+    post.active = true;
+    post.acceptedUser = this.currentUserId;
     this.tutorService.update(post);
+    const notification = {
+      isSeen: false,
+      text: (this.users[0].name.lastName + " " + this.users[0].name.firstName + " elfogadta a korrepetálási kérésed, beszéljétek meg a továbbiakat!"),
+      id: uuidv4(),
+    } as Notification;
+    this.notificationService.createNotification(notification);
+    const author = this.userService.getUserById(post.author);
+    author.subscribe(author => {
+      author?.notifications.push(notification);
+      if (author) this.userService.update(author);
+    })
   }
 
   getUser(authorId: string): User | undefined {
@@ -160,15 +163,12 @@ export class TutoringComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     if (this.tutoringPostsSubscription) {
       this.tutoringPostsSubscription.unsubscribe();
-      console.log('tutoringPostsSubscription = unsubscribed')
     }
     if (this.userSubscription) {
       this.userSubscription.unsubscribe();
-      console.log('userSubscription = unsubscribed')
     }
     if (this.dialogSubscription) {
       this.dialogSubscription.unsubscribe();
-      console.log('dialogSubscription = unsubscribed')
     }
   }
 

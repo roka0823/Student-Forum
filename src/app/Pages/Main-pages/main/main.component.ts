@@ -35,7 +35,6 @@ export class MainComponent implements OnInit {
 
   loadSubjects() {
     this.subjectService.getAllSubjects().subscribe( subjects => {
-      console.log(subjects)
       this.subjects = subjects;
       this.cdRef.detectChanges();
     });

@@ -6,4 +6,5 @@ export interface Comment {
   author: string;
   time: firebase.firestore.Timestamp;
   fileUrl?: string;
+  fileName?: string;
 }

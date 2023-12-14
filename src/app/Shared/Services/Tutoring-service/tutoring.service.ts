@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import {AngularFirestore} from "@angular/fire/compat/firestore";
 import {TutoringPost} from "../../Models/Tutoring-post";
-import {User} from "../../Models/User";
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +23,6 @@ export class TutoringService {
   }
 
   deletePost(post: TutoringPost) {
-    console.log(post)
     const documentRef = this.afs.collection<TutoringPost>(this.collectionName).doc(post.id);
     return documentRef.delete();
   }

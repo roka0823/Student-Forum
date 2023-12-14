@@ -1,7 +1,5 @@
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
-const firestore = firebase.firestore();
-
 
 export interface TutoringPost {
   id: string;
@@ -10,6 +8,7 @@ export interface TutoringPost {
   offer: string;
   description: string;
   author: string;
+  acceptedUser?: string;
   time: firebase.firestore.Timestamp;
   active: boolean;
 }
