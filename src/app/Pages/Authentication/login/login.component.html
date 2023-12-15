@@ -1,27 +1,37 @@
-<div class="header">
-  <b>Üdvözöllek</b>
-</div>
-<div class="body" [formGroup]="loginForm">
-  <div class="p-email">
-    <p>Email:</p>
+<div class="container">
+  <div class="header">
+    <b>Üdvözöllek</b>
   </div>
-  <div class="email-password">
-    <mat-form-field style="width:40vw">
-      <mat-label>Írd be az email címed</mat-label>
-      <input matInput type="email" formControlName="email" />
-    </mat-form-field>
-  </div>
-  <div class="p-style">
-    <p>Jelszó</p>
-  </div>
-  <div class="email-password">
-    <mat-form-field style="width:40vw">
-      <mat-label>Írd be a jelszavad</mat-label>
-      <input matInput type="password" formControlName="password" />
-    </mat-form-field>
-  </div>
-  <div class="buttons">
-    <button mat-raised-button (click)="login()">Bejelentkezés</button>
-    <button mat-button [routerLink]="'/register'">Regisztráció</button>
+  <div class="body" [formGroup]="loginForm">
+    <div class="row mt-3">
+      <p class="col">Email:</p>
+    </div>
+    <div class="row mt-2">
+      <div class="col">
+        <mat-form-field style="width:100%">
+          <mat-label>Írd be az email címed</mat-label>
+          <input matInput type="email" formControlName="email"/>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row mt-2">
+      <div class="col">
+        <p>Jelszó:</p>
+      </div>
+    </div>
+    <div class="row mt-2">
+      <div class="col">
+        <div class="email-password">
+          <mat-form-field style="width:100%">
+            <mat-label>Írd be a jelszavad</mat-label>
+            <input matInput type="password" formControlName="password"/>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="buttons">
+        <button mat-raised-button (click)="login()">Bejelentkezés</button>
+        <button mat-button [routerLink]="'/register'">Regisztráció</button>
+      </div>
+    </div>
   </div>
 </div>

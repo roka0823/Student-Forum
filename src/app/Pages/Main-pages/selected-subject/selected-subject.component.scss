@@ -58,6 +58,12 @@ input[type="file"] {
   cursor: pointer;
 }
 
+::ng-deep {
+  .com-card {
+    padding: 0;
+  }
+}
+
 .header {
   display: flex;
   justify-content: space-between;

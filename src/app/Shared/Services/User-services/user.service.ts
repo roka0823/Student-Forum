@@ -3,7 +3,7 @@ import {AngularFirestore} from "@angular/fire/compat/firestore";
 import {User} from "../../Models/User";
 import {AuthenticationService} from "../Authentication/authentication.service";
 import {doc, getDoc, getFirestore} from "@angular/fire/firestore";
-import {take} from "rxjs";
+import {of, switchMap, take} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -19,11 +19,31 @@ export class UserService {
   }
 
   loadUser() {
-    return this.afs.collection<User>(this.collectionName, ref => ref.where('id', '==', this.authService.getId())).valueChanges().pipe(take(1));
+    return this.authService.getIdObservable().pipe(
+      take(1),
+      switchMap(userId => {
+        console.log('User ID:', userId); // Add this line for debugging
+        if (userId) {
+          return this.afs.collection<User>(this.collectionName, ref => ref.where('id', '==', userId)).valueChanges().pipe(take(1));
+        } else {
+          // If user ID is undefined, return an empty observable or handle accordingly
+          return of([]);
+        }
+      })
+    );
   }
 
   getAllExceptLogged() {
-    return this.afs.collection<User>(this.collectionName, ref => ref.where('id', '!=', this.authService.getId())).valueChanges();
+    return this.authService.getIdObservable().pipe(
+      take(1),
+      switchMap(userId => {
+        if (userId) {
+          return this.afs.collection<User>(this.collectionName, ref => ref.where('id', '!=', userId)).valueChanges();
+        } else {
+          return of([]);
+        }
+      })
+    );
   }
 
   getAllUsers() {

@@ -68,8 +68,7 @@ export class SubjectsComponent implements OnInit, OnDestroy {
             console.error('Error updating user document:', error);
           });
         newSubject.joinedUsers++;
-        this.subjectService.updateSubject(newSubject).then(() => {
-        })
+        this.subjectService.updateSubject(newSubject)
       } catch (error) {
         console.error('Error updating user document:', error);
       }
@@ -99,8 +98,7 @@ export class SubjectsComponent implements OnInit, OnDestroy {
         });
 
       newSubject.joinedUsers--;
-      this.subjectService.updateSubject(newSubject).then(() => {
-      })
+      this.subjectService.updateSubject(newSubject)
     } else {
       window.alert(`${newSubject.name} már nem szerepel a tantárgyaid között.`);
     }

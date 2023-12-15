@@ -30,7 +30,7 @@ export class NavigationComponent implements OnInit {
         titleName = 'Főoldal';
         break;
       case 'not-found':
-        titleName = "Hűha! Ilyen oldalt nem találtam";
+        titleName = "Hűha! Ez az oldal nem létezik";
         break;
       case 'profile':
         titleName = "Profil";

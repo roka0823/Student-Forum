@@ -31,13 +31,6 @@ export class StudentsComponent implements OnInit, OnDestroy {
       map(users => users[0])
     ).subscribe(user => {
       this.loggedInUser = user;
-      this.loggedInUser.name.firstName = user.name.firstName;
-      this.loggedInUser.name.lastName = user.name.lastName;
-      this.loggedInUser.major = user.major;
-      this.loggedInUser.semester = user.semester;
-      this.loggedInUser.friends = user.friends;
-      this.loggedInUser.subjects = user.subjects;
-      this.loggedInUser.badges = user.badges;
       this.loading = false;
     });
   }
@@ -47,24 +40,19 @@ export class StudentsComponent implements OnInit, OnDestroy {
   }
 
   async addFriend(student: User) {
-    // Check if the student is already a friend
     if (
       this.loggedInUser.friends &&
       this.loggedInUser.friends.some((friend) => friend === student.id)
     ) {
       window.alert(`${student.name.firstName} ${student.name.lastName} is already your friend.`);
     } else {
-      // Add the student's ID to the friends array in memory
       if (this.loggedInUser.friends) {
         this.loggedInUser.friends.push(student.id);
       }
-
-      // Update the friends array in the database
       try {
         await this.userService.update(this.loggedInUser);
         window.alert(`${student.name.firstName} ${student.name.lastName} has been added to your friends.`);
 
-        // Add the logged-in user's ID to the friend's array
         student.friends.push(this.loggedInUser.id);
         await this.userService.update(student);
       } catch (error) {
@@ -82,7 +70,6 @@ export class StudentsComponent implements OnInit, OnDestroy {
   }
 
   writeMessage(student: User) {
-    // implement your logic for writing a message
   }
 
   ngOnDestroy(): void {

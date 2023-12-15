@@ -22,7 +22,7 @@ import {Notification} from "../../../Shared/Models/Notification";
 export class TutoringComponent implements OnInit, OnDestroy {
 
   menu: number = 1;
-  loading = false;
+  loading = true;
   tutoringPosts: TutoringPost[] = [];
   users: User[] = [];
   private userSubscription: Subscription | null = null;
@@ -40,7 +40,6 @@ export class TutoringComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.loading = true;
     this.tutoringPostsSubscription = this.tutorService.getAllPosts().subscribe(tutoringPosts => {
       this.tutoringPosts = tutoringPosts.sort((a, b) => b.time.toMillis() - a.time.toMillis());
       this.cdRef.detectChanges();

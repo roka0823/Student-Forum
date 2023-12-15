@@ -191,10 +191,12 @@ export class SelectedSubjectComponent implements OnInit,  OnDestroy{
       } else {
         this.commentService.createComment(newComment);
       }
-
+      this.postCommentMap.get(post.id)!.push(newComment.id);
+      this.comments.push(newComment);
       currentPost.comments.push(newComment.id);
       this.postsService.updatePost(currentPost);
       this.newCommentForm.reset();
+      this.cdRef.detectChanges();
     });
   }
 

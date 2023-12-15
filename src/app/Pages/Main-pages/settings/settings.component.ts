@@ -17,29 +17,29 @@ export class SettingsComponent {
 
   onOpenDialogPersonal() {
     const dialogRef = this.newPostDialog.open(PersonalSettingsComponent, {
-      width: '70%',
-      height: '90%',
+      width: '50%',
+      height: '50%',
     });
   }
 
   onOpenDialogPassword() {
     const dialogRef = this.newPostDialog.open(ChangePasswordComponent, {
-      width: '70%',
-      height: '90%',
+      width: '50%',
+      height: '50%',
     });
   }
 
   onOpenDialogStudies() {
     const dialogRef = this.newPostDialog.open(StudiesSettingsComponent, {
-      width: '70%',
-      height: '90%',
+      width: '50%',
+      height: '50%',
     });
   }
 
   onOpenDialogOther() {
     const dialogRef = this.newPostDialog.open(OtherSettingsComponent, {
-      width: '70%',
-      height: '90%',
+      width: '50%',
+      height: '50%',
     });
   }
 }

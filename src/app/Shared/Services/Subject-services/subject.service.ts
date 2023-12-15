@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
 import {AngularFirestore} from "@angular/fire/compat/firestore";
 import {Subject} from "../../Models/Subject";
-import {Post} from "../../Models/Post";
-import {User} from "../../Models/User";
 import {doc, getDoc, getFirestore} from "@angular/fire/firestore";
-import {catchError, from, map, Observable, throwError} from "rxjs";
+import {catchError, from, map, Observable, of, switchMap, throwError} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +20,10 @@ export class SubjectService {
   }
 
   loadSubject(subjectName: string): Observable<string | null> {
+    if (!subjectName) {
+      return of(null);
+    }
+
     return this.afs
       .collection<Subject>(this.collectionNameSubject, ref => ref.where('name', '==', subjectName))
       .snapshotChanges()
@@ -40,6 +42,7 @@ export class SubjectService {
       );
   }
 
+
   getSubjectNameById(subjectId: string): Promise<any> {
     const docRef = doc(getFirestore(), this.collectionNameSubject, subjectId);
     return getDoc(docRef).then(doc => {
@@ -48,15 +51,30 @@ export class SubjectService {
   }
 
   updateSubject(subject: Subject) {
-    const query = this.afs.collection<Subject>(this.collectionNameSubject, ref => ref.where('name', '==', subject.name));
-    return query.get().toPromise().then((querySnapshot) => {
-      if (querySnapshot && querySnapshot.size === 1) {
-        const docRef = querySnapshot.docs[0].ref;
-        return docRef.update(subject);
-      } else {
-        throw new Error(`Found ${querySnapshot?.size} documents with name "${subject.name}"`);
-      }
-    });
+    if (!subject.name) {
+      return throwError(new Error('Subject name is undefined.'));
+    }
+
+    const query = this.afs.collection<Subject>(
+      this.collectionNameSubject,
+      (ref) => ref.where('name', '==', subject.name)
+    );
+
+    return from(query.get()).pipe(
+      switchMap((querySnapshot) => {
+        if (querySnapshot && querySnapshot.size === 1) {
+          const docRef = querySnapshot.docs[0].ref;
+          return from(docRef.update(subject));
+        } else {
+          const errorMessage = `Found ${querySnapshot?.size} documents with name "${subject.name}"`;
+          return throwError(new Error(errorMessage));
+        }
+      }),
+      catchError((error) => {
+        console.error('Error updating subject:', error);
+        return throwError(error);
+      })
+    );
   }
 
   getPostsFromId(postId: string): Promise<any> {

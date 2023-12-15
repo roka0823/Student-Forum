@@ -1,46 +1,58 @@
 <div class="container">
-  <div id="header">
+  <div class="ms-5 me-5 ps-5 pe-5">
     <p>Személyes adatok megváltoztatása</p>
   </div>
   <form [formGroup]="updateForm" (ngSubmit)="onSave()">
     <div formGroupName="name" class="subForm">
-      <div class="element-container">
-        <div class="element">
+      <div class="row mt-2">
+        <div class="col ms-5 me-5 ps-5 pe-5">
           <b>Vezetéknév:</b>
         </div>
-        <div>
-          <mat-form-field>
+      </div>
+      <div class="row mt-2">
+        <div class="col ms-5 me-5 ps-5 pe-5">
+          <mat-form-field style="width:100% ">
             <mat-label>Új vezetéknév</mat-label>
             <input matInput value="{{ firstName }}" formControlName="firstName"/>
           </mat-form-field>
         </div>
       </div>
-      <div class="element-container">
-        <div class="element">
+
+
+      <div class="row mt-2">
+        <div class="col ms-5 me-5 ps-5 pe-5">
           <b>Keresztnév:</b>
         </div>
-        <div>
-          <mat-form-field>
+      </div>
+      <div class="row mt-2">
+        <div class="col ms-5 me-5 ps-5 pe-5">
+          <mat-form-field style="width:100% ">
             <mat-label>Új keresztnév</mat-label>
             <input matInput value="{{ lastName }}" formControlName="lastName"/>
           </mat-form-field>
         </div>
       </div>
     </div>
-    <div class="element-container">
-      <div class="element">
+    <div class="row mt-2">
+      <div class="col ms-5 me-5 ps-5 pe-5">
         <b>Becenév:</b>
       </div>
     </div>
-    <div>
-      <mat-form-field>
-        <mat-label>Hogy szeretnéd, hogy hívjanak?</mat-label>
-        <input matInput value="{{ nickName }}" formControlName="nickName">
-      </mat-form-field>
+    <div class="row mt-2">
+      <div class="col ms-5 me-5 ps-5 pe-5">
+        <mat-form-field style="width:100% ">
+          <mat-label>Hogy szeretnéd, hogy hívjanak?</mat-label>
+          <input matInput value="{{ nickName }}" formControlName="nickName">
+        </mat-form-field>
+      </div>
     </div>
-    <div class="buttons">
-      <button mat-raised-button type="submit">Mentés</button>
-      <button mat-button mat-dialog-close>Mégsem</button>
+    <div class="row mt-2 ms-5 me-5 ps-5 pe-5">
+      <div class="col ms-5 me-5 ps-5 pe-5">
+        <button mat-raised-button type="submit">Mentés</button>
+      </div>
+      <div class="col ms-5 me-5 ps-5 pe-5">
+        <button mat-button mat-dialog-close>Mégsem</button>
+      </div>
     </div>
   </form>
 </div>
