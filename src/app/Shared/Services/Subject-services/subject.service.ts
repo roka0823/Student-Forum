@@ -51,30 +51,11 @@ export class SubjectService {
   }
 
   updateSubject(subject: Subject) {
-    if (!subject.name) {
-      return throwError(new Error('Subject name is undefined.'));
-    }
-
-    const query = this.afs.collection<Subject>(
-      this.collectionNameSubject,
-      (ref) => ref.where('name', '==', subject.name)
-    );
-
-    return from(query.get()).pipe(
-      switchMap((querySnapshot) => {
-        if (querySnapshot && querySnapshot.size === 1) {
-          const docRef = querySnapshot.docs[0].ref;
-          return from(docRef.update(subject));
-        } else {
-          const errorMessage = `Found ${querySnapshot?.size} documents with name "${subject.name}"`;
-          return throwError(new Error(errorMessage));
-        }
-      }),
-      catchError((error) => {
-        console.error('Error updating subject:', error);
-        return throwError(error);
-      })
-    );
+    const subjectDocRef = this.afs.collection(this.collectionNameSubject).doc(subject.id);
+    return subjectDocRef.update(subject).catch(error => {
+      console.error("Error updating subject document: ", error);
+      throw error; // You might want to handle the error appropriately
+    });
   }
 
   getPostsFromId(postId: string): Promise<any> {

@@ -85,12 +85,17 @@
         </mat-form-field>
       </div>
     </div>
-
+    <div class="row mt-2">
+      <div class="col">
+        <mat-checkbox formControlName="aszf">Megértettem és elfogadom az adatkezelési és tartalomkezelési szabályzatot
+          <a [href]="link" target="_blank" download>Letöltés</a>
+        </mat-checkbox>
+      </div>
+    </div>
     <div class="buttons">
       <button mat-raised-button type="submit">Regisztráció</button>
       <button mat-button [routerLink]="'/login'">Bejelentkezés</button>
     </div>
-
   </form>
 </div>
 

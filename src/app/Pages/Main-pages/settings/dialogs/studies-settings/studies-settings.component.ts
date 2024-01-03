@@ -56,10 +56,8 @@ export class StudiesSettingsComponent implements OnInit{
     const major = this.updateStudiesForm.get('major')?.value;
     const semester = this.updateStudiesForm.get('semester')?.value;
 
-    // Get the current user ID
     const userId = this.authService.getId();
 
-    // Create a new User object with the updated values
     const updatedUser: User = {
       id: userId as string,
       email: '',
@@ -76,7 +74,6 @@ export class StudiesSettingsComponent implements OnInit{
       notifications: this.notifications
     };
 
-    // Call the update() method of the UserService to update the user in the database
     this.userService.update(updatedUser)
       .then(() => {
         window.alert('Sikeres módosítás')

@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {forkJoin, map, Observable, Subscription} from "rxjs";
+import {forkJoin, map, Observable, Subscription, take} from "rxjs";
 import {User} from "../../../Shared/Models/User";
 import {UserService} from "../../../Shared/Services/User-services/user.service";
 import {Router} from "@angular/router";
@@ -26,7 +26,8 @@ export class ProfileComponent implements OnInit, OnDestroy{
               private router: Router,
               private subjectService: SubjectService,
               private studentService: StudentService) {
-    this.object = this.userService.loadUser()
+    this.object = this.userService.loadUser().pipe(take(1));
+
   }
 
   ngOnInit(): void {
@@ -40,6 +41,7 @@ export class ProfileComponent implements OnInit, OnDestroy{
         this.loading = false;
       });
     });
+    this.loading = false;
   }
 
   ngOnDestroy(): void {

@@ -22,11 +22,9 @@ export class UserService {
     return this.authService.getIdObservable().pipe(
       take(1),
       switchMap(userId => {
-        console.log('User ID:', userId); // Add this line for debugging
         if (userId) {
           return this.afs.collection<User>(this.collectionName, ref => ref.where('id', '==', userId)).valueChanges().pipe(take(1));
         } else {
-          // If user ID is undefined, return an empty observable or handle accordingly
           return of([]);
         }
       })
