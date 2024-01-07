@@ -78,7 +78,8 @@ export class PersonalSettingsComponent implements OnInit{
         lastName: lastName as string,
       },
       nickName: nickName as string,
-      notifications: this.notifications
+      notifications: this.notifications,
+      isAdmin: false
     };
 
     // Call the update() method of the UserService to update the user in the database

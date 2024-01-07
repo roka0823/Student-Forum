@@ -53,11 +53,9 @@ export class MainComponent implements OnInit {
     return this.postService.getPosts().pipe(
       tap(posts => {
         this.posts = posts;
-
         if (this.user && this.user.subjects) {
           this.posts = this.posts.filter(post => this.user.subjects.includes(post.subject));
         }
-
         this.posts.sort((a, b) => (b.time.toDate() as any) - (a.time.toDate() as any));
       })
     );

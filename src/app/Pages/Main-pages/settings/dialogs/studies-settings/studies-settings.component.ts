@@ -71,7 +71,8 @@ export class StudiesSettingsComponent implements OnInit{
         lastName: this.lastName as string,
       },
       nickName: this.nickName as string,
-      notifications: this.notifications
+      notifications: this.notifications,
+      isAdmin: false
     };
 
     this.userService.update(updatedUser)

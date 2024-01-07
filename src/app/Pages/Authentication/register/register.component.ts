@@ -4,8 +4,6 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {UserService} from "../../../Shared/Services/User-services/user.service";
 import {User} from "../../../Shared/Models/User";
 import {Router} from "@angular/router";
-import {FileUploadService} from "../../../Shared/Services/File-upload/file-upload.service";
-import {VAPID_KEY} from "@angular/fire/compat/messaging";
 
 @Component({
   selector: 'app-register',
@@ -53,7 +51,8 @@ export class RegisterComponent {
             friends: [],
             subjects: [],
             badges: ['Beta Tester'],
-            notifications: []
+            notifications: [],
+            isAdmin: false
           };
           this.userService.create(user).then(_ => {
             this.router.navigateByUrl('/profile')

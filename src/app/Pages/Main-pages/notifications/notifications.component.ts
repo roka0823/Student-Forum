@@ -48,7 +48,6 @@ export class NotificationsComponent implements OnInit {
     });
   }
 
-
   deleteNotification(id: string) {
     this.notificationService.deleteNotification(id).then(_ => {
       this.usersNotifications = this.usersNotifications.filter(noti => noti.id !== id);

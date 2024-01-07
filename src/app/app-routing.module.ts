@@ -16,6 +16,7 @@ const routes: Routes = [
             { path: 'tutoring', loadChildren: () => import('./Pages/Main-pages/tutoring/tutoring.module').then(m => m.TutoringModule), canActivate: [AuthGuard] },
             { path: 'settings', loadChildren: () => import('./Pages/Main-pages/settings/settings.module').then(m => m.SettingsModule),canActivate: [AuthGuard] },
             { path: 'not-found', loadChildren: () => import('./Pages/Main-pages/not-found/not-found.module').then(m => m.NotFoundModule),canActivate: [AuthGuard] },
+            { path: 'admin', loadChildren: () => import('./Pages/Main-pages/admin/admin.module').then(m => m.AdminModule),canActivate: [AuthGuard] },
             { path: 'notifications', loadChildren: () => import('./Pages/Main-pages/notifications/notifications.module').then(m => m.NotificationsModule), canActivate: [AuthGuard] },
           ]},
         { path: '**',  redirectTo: '/not-found', pathMatch: 'full'}];

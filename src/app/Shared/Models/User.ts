@@ -14,4 +14,5 @@ export interface User {
   subjects: string[];
   badges: string[];
   notifications: Notification[];
+  isAdmin: boolean;
 }

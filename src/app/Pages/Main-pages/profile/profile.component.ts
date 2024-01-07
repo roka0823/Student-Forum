@@ -6,22 +6,20 @@ import {Router} from "@angular/router";
 import {SubjectService} from "../../../Shared/Services/Subject-services/subject.service";
 import {StudentService} from "../../../Shared/Services/Student-services/student.service";
 
-
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit, OnDestroy{
-
   private subscription: Subscription | null = null;
   user!: User;
   object: Observable<Array<User>>
   isHovered = false;
   loading = true;
-
   mySubjects: string[] = [];
   myFriends: User[] = [];
+
   constructor(private userService: UserService,
               private router: Router,
               private subjectService: SubjectService,
@@ -33,10 +31,8 @@ export class ProfileComponent implements OnInit, OnDestroy{
   ngOnInit(): void {
     this.subscription = this.object.pipe(map((users) => users[0])).subscribe((user) => {
       this.user = user;
-
       const subjectPromises = this.user.subjects.map((subject) => this.getSubjectName(subject));
       const friendPromises = this.user.friends.map((friend) => this.getStudent(friend));
-
       forkJoin([...subjectPromises, ...friendPromises]).subscribe(() => {
         this.loading = false;
       });

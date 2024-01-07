@@ -3,7 +3,7 @@ import {AngularFirestore} from "@angular/fire/compat/firestore";
 import {User} from "../../Models/User";
 import {AuthenticationService} from "../Authentication/authentication.service";
 import {doc, getDoc, getFirestore} from "@angular/fire/firestore";
-import {of, switchMap, take} from "rxjs";
+import {Observable, of, switchMap, take} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +18,7 @@ export class UserService {
     return this.afs.collection<User>(this.collectionName).doc(user.id).set(user);
   }
 
-  loadUser() {
+  loadUser(): Observable<User[]> {
     return this.authService.getIdObservable().pipe(
       take(1),
       switchMap(userId => {
