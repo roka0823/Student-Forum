@@ -7,4 +7,5 @@ export const environment = {
     authDomain: 'diak-forum.firebaseapp.com',
     messagingSenderId: '1096626611266',
     measurementId: 'G-YQDZL4HH59',
-  },};
+  },
+};

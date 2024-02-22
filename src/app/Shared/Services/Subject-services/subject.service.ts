@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {AngularFirestore} from "@angular/fire/compat/firestore";
 import {Subject} from "../../Models/Subject";
 import {doc, getDoc, getFirestore} from "@angular/fire/firestore";
-import {catchError, from, map, Observable, of, switchMap, throwError} from "rxjs";
+import {map, Observable, of} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +10,6 @@ import {catchError, from, map, Observable, of, switchMap, throwError} from "rxjs
 export class SubjectService {
 
   collectionNameSubject = 'Subjects'
-  collectionNameComment = 'Comments'
 
   constructor(private afs: AngularFirestore) {
   }
@@ -54,7 +53,7 @@ export class SubjectService {
     const subjectDocRef = this.afs.collection(this.collectionNameSubject).doc(subject.id);
     return subjectDocRef.update(subject).catch(error => {
       console.error("Error updating subject document: ", error);
-      throw error; // You might want to handle the error appropriately
+      throw error;
     });
   }
 

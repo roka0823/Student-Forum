@@ -1,5 +1,47 @@
+@media screen and (min-width: 768px) {
+  .hamburg-container {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .hamburg-container {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    border: none;
+  }
+}
+
+@keyframes slideInFromLeft {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInFromRight {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.custom-toolbar.close {
+  background: #FAF9F6;
+}
+
+.custom-toolbar.open {
+  background: linear-gradient(to right, #DDDDDD 0px, #DDDDDD 103.88px, #BBBBBB 104.88px, #FAF9F6 105.88px);
+}
+
 .sidenav-container {
   height: 100%;
+
 }
 
 .sidenav {
@@ -66,7 +108,7 @@ a{
 
 //MAT CARD
 .card-content-container{
-  height: 90%;
+  height: 100%;
 }
 
 .card-container{
@@ -85,6 +127,14 @@ mat-card {
 }
 
 .header-nav {
+  margin-left: 20px;
+  display: flex;
+  align-items: center;
+  position: fixed;
+  width: 50%;
+}
+
+.header-nav-desktop {
   display: flex;
   align-items: center;
   margin-top: 2%;

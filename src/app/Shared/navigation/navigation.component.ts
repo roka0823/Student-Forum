@@ -1,7 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, HostListener, OnInit, ViewChild} from '@angular/core';
 import {Location} from "@angular/common";
 import {Router} from "@angular/router";
 import {AuthenticationService} from "../Services/Authentication/authentication.service";
+import {MatSidenav} from "@angular/material/sidenav";
 
 @Component({
   selector: 'app-navigation',
@@ -10,7 +11,10 @@ import {AuthenticationService} from "../Services/Authentication/authentication.s
 })
 export class NavigationComponent implements OnInit {
 
-  loggedInUser?: firebase.default.User | null;
+  public loggedInUser?: firebase.default.User;
+  public isMobile: boolean = false;
+  public sidenavOpen: boolean = false;
+  @ViewChild('sidenav') sidenav!: MatSidenav;
 
   constructor(private location: Location, private router: Router, private authService: AuthenticationService) {
   }
@@ -62,11 +66,10 @@ export class NavigationComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.authService.isUserLoggedIn().subscribe(user => {
-      this.loggedInUser = user;
-      console.log(this.loggedInUser)
-    }, error => {
-      console.error(error);
+    this.authService.getLoggedInUser().subscribe(user => {
+      if (user !== null) {
+        this.loggedInUser = user;
+      }
     })
   }
 
@@ -80,4 +83,24 @@ export class NavigationComponent implements OnInit {
     this.router.navigateByUrl('/login');
   }
 
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    this.checkIfMobile();
+  }
+
+  checkIfMobile() {
+    this.isMobile = window.innerWidth < 756;
+    if (this.isMobile) {
+      this.sidenav.mode = 'over'; // Set mode to 'over' for mobile
+      this.sidenav.close(); // Close sidenav for mobile view
+    } else {
+      this.sidenav.mode = 'side'; // Set mode to 'side' for desktop
+      this.sidenav.open(); // Open sidenav for desktop view
+    }
+  }
+
+  toggleSidenav() {
+    this.sidenavOpen = !this.sidenavOpen;
+    this.sidenav.toggle();
+  }
 }

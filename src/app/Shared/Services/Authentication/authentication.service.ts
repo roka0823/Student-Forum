@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
+import {map, Observable} from "rxjs";
+
 import {AngularFireAuth} from "@angular/fire/compat/auth";
 import {getAuth} from "@angular/fire/auth";
-import {map, Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +23,7 @@ export class AuthenticationService {
     return this.auth.user?.pipe(map(user => user?.uid));
   }
 
-  isUserLoggedIn() {
+  getLoggedInUser() {
     return this.auth.user;
   }
 
